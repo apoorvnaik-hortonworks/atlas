@@ -15,15 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.atlas.metrics.publisher;
 
-package org.apache.atlas.aspect;
+public interface MetricsPublisher extends Publisher, Runnable {
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Monitored {
+    /**
+     * @return Publish interval value
+     */
+    int getPublishIntervalInSecs();
 }

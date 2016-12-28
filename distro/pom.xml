@@ -116,6 +116,24 @@ atlas.graph.index.search.solr.zookeeper-session-timeout=60000
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <!-- Only to be used when testing integration with AMS (Ambari metrics service) on dev-->
+            <id>ams-dev-test</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <atlas.ambari.metrics>
+                    atlas.metrics.enabled=true
+
+                    zookeeper.connect=c7001.ambari.apache.org:2181
+                    atlas.ambari.metrics.hosts=c7001.ambari.apache.org
+                    atlas.ambari.metrics.port=6188
+                    atlas.ambari.metrics.protocol=http
+                    atlas.ambari.metrics.publisher=org.apache.hadoop.metrics.sink.atlas.AtlasMetricsReporter
+                </atlas.ambari.metrics>
+            </properties>
+        </profile>
         <!-- profile to configure berkeley and elasticsearch with the distribution -->
         <profile>
             <id>berkeley-elasticsearch</id>

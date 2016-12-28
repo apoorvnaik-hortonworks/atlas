@@ -61,7 +61,7 @@ public class AuditFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
-    throws IOException, ServletException {
+            throws IOException, ServletException {
         final String requestTimeISO9601 = DateTimeHelper.formatDateUTC(new Date());
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
         final String requestId = UUID.randomUUID().toString();
@@ -113,7 +113,7 @@ public class AuditFilter implements Filter {
     }
 
     public static void audit(String who, String fromAddress, String whatRequest, String fromHost, String whatURL, String whatAddrs,
-            String whenISO9601) {
+                             String whenISO9601) {
         AUDIT_LOG.info("Audit: {}/{}-{} performed request {} {} ({}) at time {}", who, fromAddress, fromHost, whatRequest, whatURL,
                 whatAddrs, whenISO9601);
     }
@@ -124,14 +124,14 @@ public class AuditFilter implements Filter {
         if (!requestMetrics.isEmpty()) {
             METRICS_LOG.info("{}", requestMetrics);
         }
-     }
+    }
 
     boolean isOperationExcludedFromAudit(String requestHttpMethod, String requestOperation, Configuration config) {
-       try {
-        return AtlasRepositoryConfiguration.isExcludedFromAudit(config, requestHttpMethod, requestOperation);
-    } catch (AtlasException e) {
-        return false;
-    }
+        try {
+            return AtlasRepositoryConfiguration.isExcludedFromAudit(config, requestHttpMethod, requestOperation);
+        } catch (AtlasException e) {
+            return false;
+        }
     }
 
     @Override

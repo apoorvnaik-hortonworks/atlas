@@ -18,9 +18,12 @@
 
 package org.apache.atlas.web.resources;
 
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.SharedMetricRegistries;
 import com.google.inject.Inject;
 import org.apache.atlas.AtlasClient;
-import org.apache.atlas.aspect.Monitored;
+import org.apache.atlas.metrics.annotations.CollectMetric;
+import org.apache.atlas.metrics.annotations.Monitored;
 import org.apache.atlas.utils.AtlasPerfTracer;
 import org.apache.atlas.web.filters.AtlasCSRFPreventionFilter;
 import org.apache.atlas.web.service.ServiceState;
@@ -44,6 +47,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -59,7 +64,7 @@ public class AdminResource {
     private static final String CUSTOM_METHODS_TO_IGNORE_PARAM = "atlas.rest-csrf.methods-to-ignore";
     private static final String CUSTOM_HEADER_PARAM = "atlas.rest-csrf.custom-header";
     private static final String isTaxonomyEnabled = "atlas.feature.taxonomy.enable";
-    
+
     private Response version;
     private ServiceState serviceState;
 
@@ -77,6 +82,7 @@ public class AdminResource {
     @GET
     @Path("stack")
     @Produces(MediaType.TEXT_PLAIN)
+    @CollectMetric(metricName = "Admin", meterName = "threadDump")
     public String getThreadDump() {
         ThreadGroup topThreadGroup = Thread.currentThread().getThreadGroup();
 
@@ -146,6 +152,7 @@ public class AdminResource {
     @GET
     @Path("session")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "Admin", meterName = "userProfile")
     public Response getUserProfile() {
         JSONObject responseData = new JSONObject();
         Boolean enableTaxonomy = null;
@@ -175,6 +182,26 @@ public class AdminResource {
             return Response.ok(responseData).build();
         } catch (JSONException | ConfigurationException e) {
             throw new WebApplicationException(Servlets.getErrorResponse(e, Response.Status.INTERNAL_SERVER_ERROR));
+        }
+    }
+
+    @GET
+    @Path("metrics")
+    @Produces(Servlets.JSON_MEDIA_TYPE)
+    public Response getMetrics() {
+        Map<String, MetricRegistry> metricRegistryMap = new LinkedHashMap<>();
+        Set<String> registryNames = SharedMetricRegistries.names();
+        for (String registryName : registryNames) {
+            metricRegistryMap.put(registryName, SharedMetricRegistries.getOrCreate(registryName));
+        }
+        if (metricRegistryMap.isEmpty()) {
+            return Response
+                    .noContent()
+                    .build();
+        } else {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(metricRegistryMap).build();
         }
     }
 }

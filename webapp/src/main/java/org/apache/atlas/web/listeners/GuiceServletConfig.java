@@ -18,12 +18,14 @@
 
 package org.apache.atlas.web.listeners;
 
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.ServletContextEvent;
-
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Module;
+import com.google.inject.Stage;
+import com.google.inject.servlet.GuiceServletContextListener;
+import com.sun.jersey.api.core.PackagesResourceConfig;
+import com.sun.jersey.guice.JerseyServletModule;
+import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasException;
@@ -35,6 +37,7 @@ import org.apache.atlas.repository.graphdb.AtlasGraph;
 import org.apache.atlas.service.Services;
 import org.apache.atlas.web.filters.ActiveServerFilter;
 import org.apache.atlas.web.filters.AuditFilter;
+import org.apache.atlas.web.metrics.MetricsModule;
 import org.apache.atlas.web.service.ActiveInstanceElectorModule;
 import org.apache.atlas.web.service.ServiceModule;
 import org.apache.commons.configuration.Configuration;
@@ -42,14 +45,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.google.inject.Stage;
-import com.google.inject.servlet.GuiceServletContextListener;
-import com.sun.jersey.api.core.PackagesResourceConfig;
-import com.sun.jersey.guice.JerseyServletModule;
-import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
+import javax.servlet.ServletContextEvent;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GuiceServletConfig extends GuiceServletContextListener {
 
@@ -73,8 +72,13 @@ public class GuiceServletConfig extends GuiceServletContextListener {
             LoginProcessor loginProcessor = new LoginProcessor();
             loginProcessor.login();
 
-            injector = Guice.createInjector(Stage.PRODUCTION,  getRepositoryModule(), new ActiveInstanceElectorModule(),
-                    new NotificationModule(), new ServiceModule(), new JerseyServletModule() {
+            injector = Guice.createInjector(Stage.PRODUCTION,
+                    getRepositoryModule(),
+                    new ActiveInstanceElectorModule(),
+                    new NotificationModule(),
+                    new ServiceModule(),
+                    new MetricsModule(),
+                    new JerseyServletModule() {
 
                         private Configuration appConfiguration = null;
 

@@ -472,6 +472,7 @@
         <jettison.version>1.3.7</jettison.version>
         <paranamer.version>2.7</paranamer.version>
         <zkclient.version>0.8</zkclient.version>
+        <metrics.version>3.1.0</metrics.version>
 
         <PermGen>64m</PermGen>
         <MaxPermGen>512m</MaxPermGen>
@@ -493,7 +494,7 @@
         <atlas.surefire.options></atlas.surefire.options>
 
         <aspectj.runtime.version>1.8.7</aspectj.runtime.version>
-        <aspectj.skip>true</aspectj.skip>
+        <aspectj.skip>false</aspectj.skip>
     </properties>
 
     <profiles>
@@ -553,6 +554,7 @@
     <modules>
         <module>intg</module>
         <module>common</module>
+        <module>metrics</module>
         <module>typesystem</module>
         <module>server-api</module>
         <module>notification</module>
@@ -1254,6 +1256,12 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.atlas</groupId>
+                <artifactId>atlas-metrics</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
     	    <!-- use titan 0.5.4 by default -->
             <dependency>
                 <groupId>org.apache.atlas</groupId>
@@ -1467,6 +1475,20 @@
                 <version>1.8.5</version>
                 <scope>test</scope>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.powermock/powermock-api-mockito -->
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito</artifactId>
+                <version>1.4.9</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4 -->
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-testng</artifactId>
+                <version>1.5.6</version>
+                <scope>test</scope>
+            </dependency>
 
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -1510,6 +1532,19 @@
                 <artifactId>zkclient</artifactId>
                 <version>${zkclient.version}</version>
             </dependency>
+
+            <!-- Metrics Dependencies -->
+            <dependency>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-core</artifactId>
+                <version>${metrics.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-annotation</artifactId>
+                <version>${metrics.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -1675,6 +1710,52 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>aspectj-maven-plugin</artifactId>
                     <version>1.8</version>
+                    <configuration>
+                        <complianceLevel>1.7</complianceLevel>
+                        <includes>
+                            <include>**/*.java</include>
+                            <include>**/*.aj</include>
+                        </includes>
+                        <XaddSerialVersionUID>true</XaddSerialVersionUID>
+                        <showWeaveInfo>true</showWeaveInfo>
+                        <aspectLibraries>
+                            <aspectLibrary>
+                                <groupId>org.apache.atlas</groupId>
+                                <artifactId>atlas-metrics</artifactId>
+                            </aspectLibrary>
+                        </aspectLibraries>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>compile_with_aspectj</id>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>test_compile_with_aspectj</id>
+                            <goals>
+                                <goal>test-compile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.aspectj</groupId>
+                            <artifactId>aspectjrt</artifactId>
+                            <version>${aspectj.runtime.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.aspectj</groupId>
+                            <artifactId>aspectjtools</artifactId>
+                            <version>${aspectj.runtime.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.apache.atlas</groupId>
+                            <artifactId>atlas-metrics</artifactId>
+                            <version>${project.version}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
             </plugins>
         </pluginManagement>

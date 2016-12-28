@@ -15,15 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.atlas.metrics.collector;
 
-package org.apache.atlas.aspect;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Loggable {
+public interface MetricsCollector extends Runnable {
+    /**
+     * @return Get the collection interval in secs
+     */
+    int getCollectionIntervalInSecs();
 }

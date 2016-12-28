@@ -18,8 +18,8 @@
 
 package org.apache.atlas;
 
-import org.apache.atlas.aspect.Monitored;
 import org.apache.atlas.metrics.Metrics;
+import org.apache.atlas.metrics.annotations.Monitored;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;

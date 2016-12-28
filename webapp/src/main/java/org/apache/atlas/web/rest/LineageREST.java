@@ -21,6 +21,7 @@ package org.apache.atlas.web.rest;
 
 import org.apache.atlas.discovery.AtlasLineageService;
 import org.apache.atlas.exception.AtlasBaseException;
+import org.apache.atlas.metrics.annotations.CollectMetric;
 import org.apache.atlas.model.lineage.AtlasLineageInfo;
 import org.apache.atlas.model.lineage.AtlasLineageInfo.LineageDirection;
 import org.apache.atlas.web.util.Servlets;
@@ -64,6 +65,7 @@ public class LineageREST {
     @Path("/{guid}")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasLineageInfo getLineageGraph(@PathParam("guid") String guid,
                                             @QueryParam("direction") @DefaultValue(DEFAULT_DIRECTION)  LineageDirection direction,
                                             @QueryParam("depth") @DefaultValue(DEFAULT_DEPTH) int depth) throws AtlasBaseException {

@@ -21,9 +21,8 @@ package org.apache.atlas.web.resources;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.core.ResourceContext;
 import org.apache.atlas.AtlasClient;
-import org.apache.atlas.AtlasException;
-import org.apache.atlas.aspect.Monitored;
 import org.apache.atlas.exception.AtlasBaseException;
+import org.apache.atlas.metrics.annotations.Monitored;
 import org.apache.atlas.model.TypeCategory;
 import org.apache.atlas.model.typedef.AtlasClassificationDef;
 import org.apache.atlas.model.typedef.AtlasEntityDef;
@@ -32,10 +31,8 @@ import org.apache.atlas.model.typedef.AtlasStructDef;
 import org.apache.atlas.model.typedef.AtlasTypesDef;
 import org.apache.atlas.type.AtlasTypeRegistry;
 import org.apache.atlas.typesystem.TypesDef;
-import org.apache.atlas.typesystem.exception.TypeExistsException;
 import org.apache.atlas.typesystem.json.TypesSerialization;
 import org.apache.atlas.util.RestUtils;
-import org.apache.atlas.utils.AtlasPerfTracer;
 import org.apache.atlas.web.rest.TypesREST;
 import org.apache.atlas.web.util.Servlets;
 import org.codehaus.jettison.json.JSONArray;
@@ -73,7 +70,6 @@ import java.util.List;
 @Singleton
 public class TypesResource {
     private static final Logger LOG = LoggerFactory.getLogger(TypesResource.class);
-    private static final Logger PERF_LOG = AtlasPerfTracer.getPerfLogger("rest.TypesResource");
     private static AtlasTypeRegistry typeRegistry;
 
     @Inject

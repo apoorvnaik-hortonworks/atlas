@@ -21,7 +21,7 @@ package org.apache.atlas.web.resources;
 import com.google.common.base.Preconditions;
 import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasConfiguration;
-import org.apache.atlas.aspect.Monitored;
+import org.apache.atlas.metrics.annotations.Monitored;
 import org.apache.atlas.classification.InterfaceAudience;
 import org.apache.atlas.discovery.DiscoveryException;
 import org.apache.atlas.discovery.DiscoveryService;

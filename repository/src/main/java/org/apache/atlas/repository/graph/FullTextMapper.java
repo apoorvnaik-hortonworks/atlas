@@ -18,7 +18,7 @@
 package org.apache.atlas.repository.graph;
 
 import org.apache.atlas.AtlasException;
-import org.apache.atlas.aspect.Monitored;
+import org.apache.atlas.metrics.annotations.Monitored;
 import org.apache.atlas.repository.graphdb.AtlasVertex;
 import org.apache.atlas.typesystem.ITypedInstance;
 import org.apache.atlas.typesystem.ITypedReferenceableInstance;

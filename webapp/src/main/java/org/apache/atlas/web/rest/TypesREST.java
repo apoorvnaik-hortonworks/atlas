@@ -19,6 +19,7 @@ package org.apache.atlas.web.rest;
 
 import com.google.inject.Inject;
 import org.apache.atlas.exception.AtlasBaseException;
+import org.apache.atlas.metrics.annotations.CollectMetric;
 import org.apache.atlas.model.SearchFilter;
 import org.apache.atlas.model.typedef.AtlasClassificationDef;
 import org.apache.atlas.model.typedef.AtlasClassificationDef.AtlasClassificationDefs;
@@ -45,9 +46,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Set;
 
@@ -72,6 +71,7 @@ public class TypesREST {
     @Path("/enumdef")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEnumDef createEnumDef(AtlasEnumDef enumDef) throws AtlasBaseException {
         AtlasEnumDef ret = typeDefStore.createEnumDef(enumDef);
 
@@ -81,6 +81,7 @@ public class TypesREST {
     @GET
     @Path("/enumdef/name/{name}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEnumDef getEnumDefByName(@PathParam("name") String name) throws AtlasBaseException {
         AtlasEnumDef ret = typeDefStore.getEnumDefByName(name);
 
@@ -90,6 +91,7 @@ public class TypesREST {
     @GET
     @Path("/enumdef/guid/{guid}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEnumDef getEnumDefByGuid(@PathParam("guid") String guid) throws AtlasBaseException {
         AtlasEnumDef ret = typeDefStore.getEnumDefByGuid(guid);
 
@@ -100,6 +102,7 @@ public class TypesREST {
     @Path("/enumdef/name/{name}")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEnumDef updateEnumDefByName(@PathParam("name") String name, AtlasEnumDef enumDef) throws AtlasBaseException {
         AtlasEnumDef ret = typeDefStore.updateEnumDefByName(name, enumDef);
 
@@ -110,6 +113,7 @@ public class TypesREST {
     @Path("/enumdef/guid/{guid}")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEnumDef updateEnumDefByGuid(@PathParam("guid") String guid, AtlasEnumDef enumDef) throws AtlasBaseException {
         AtlasEnumDef ret = typeDefStore.updateEnumDefByGuid(guid, enumDef);
 
@@ -119,6 +123,7 @@ public class TypesREST {
     @DELETE
     @Path("/enumdef/name/{name}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public void deleteEnumDefByName(@PathParam("name") String name) throws AtlasBaseException {
         typeDefStore.deleteEnumDefByName(name);
     }
@@ -126,6 +131,7 @@ public class TypesREST {
     @DELETE
     @Path("/enumdef/guid/{guid}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public void deleteEnumDefByGuid(@PathParam("guid") String guid) throws AtlasBaseException {
         typeDefStore.deleteEnumDefByGuid(guid);
     }
@@ -133,6 +139,7 @@ public class TypesREST {
     @GET
     @Path("/enumdef")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEnumDefs searchEnumDefs() throws AtlasBaseException {
         AtlasEnumDefs ret = null;
 
@@ -150,6 +157,7 @@ public class TypesREST {
     @Path("/structdef")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasStructDef createStructDef(AtlasStructDef structDef) throws AtlasBaseException {
         AtlasStructDef ret = typeDefStore.createStructDef(structDef);
 
@@ -159,6 +167,7 @@ public class TypesREST {
     @GET
     @Path("/structdef/name/{name}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasStructDef getStructDefByName(@PathParam("name") String name) throws AtlasBaseException {
         AtlasStructDef ret = typeDefStore.getStructDefByName(name);
 
@@ -168,6 +177,7 @@ public class TypesREST {
     @GET
     @Path("/structdef/guid/{guid}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasStructDef getStructDefByGuid(@PathParam("guid") String guid) throws AtlasBaseException {
         AtlasStructDef ret = typeDefStore.getStructDefByGuid(guid);
 
@@ -178,6 +188,7 @@ public class TypesREST {
     @Path("/structdef/name/{name}")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasStructDef updateStructDefByName(@PathParam("name") String name, AtlasStructDef structDef) throws AtlasBaseException {
         AtlasStructDef ret = typeDefStore.updateStructDefByName(name, structDef);
 
@@ -188,6 +199,7 @@ public class TypesREST {
     @Path("/structdef/guid/{guid}")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasStructDef updateStructDefByGuid(@PathParam("guid") String guid, AtlasStructDef structDef) throws AtlasBaseException {
         AtlasStructDef ret = typeDefStore.updateStructDefByGuid(guid, structDef);
 
@@ -197,6 +209,7 @@ public class TypesREST {
     @DELETE
     @Path("/structdef/name/{name}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public void deleteStructDefByName(@PathParam("name") String name) throws AtlasBaseException {
         typeDefStore.deleteStructDefByName(name);
     }
@@ -204,6 +217,7 @@ public class TypesREST {
     @DELETE
     @Path("/structdef/guid/{guid}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public void deleteStructDefByGuid(@PathParam("guid") String guid) throws AtlasBaseException {
         typeDefStore.deleteStructDefByGuid(guid);
     }
@@ -211,6 +225,7 @@ public class TypesREST {
     @GET
     @Path("/structdef")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasStructDefs searchStructDefs() throws AtlasBaseException {
         SearchFilter filter = getSearchFilter();
         AtlasStructDefs ret = typeDefStore.searchStructDefs(filter);
@@ -224,6 +239,7 @@ public class TypesREST {
     @Path("/classificationdef")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasClassificationDef createClassificationDef(AtlasClassificationDef classificationDef) throws AtlasBaseException {
         AtlasClassificationDef ret = typeDefStore.createClassificationDef(classificationDef);
 
@@ -233,6 +249,7 @@ public class TypesREST {
     @GET
     @Path("/classificationdef/name/{name}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasClassificationDef getClassificationDefByName(@PathParam("name") String name) throws AtlasBaseException {
         AtlasClassificationDef ret = typeDefStore.getClassificationDefByName(name);
 
@@ -242,6 +259,7 @@ public class TypesREST {
     @GET
     @Path("/classificationdef/guid/{guid}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasClassificationDef getClassificationDefByGuid(@PathParam("guid") String guid) throws AtlasBaseException {
         AtlasClassificationDef ret = typeDefStore.getClassificationDefByGuid(guid);
 
@@ -252,6 +270,7 @@ public class TypesREST {
     @Path("/classificationdef/name/{name}")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasClassificationDef updateClassificationDefByName(@PathParam("name") String name, AtlasClassificationDef classificationDef) throws AtlasBaseException {
         AtlasClassificationDef ret = typeDefStore.updateClassificationDefByName(name, classificationDef);
 
@@ -262,6 +281,7 @@ public class TypesREST {
     @Path("/classificationdef/guid/{guid}")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasClassificationDef updateClassificationDefByGuid(@PathParam("guid") String guid, AtlasClassificationDef classificationDef) throws AtlasBaseException {
         AtlasClassificationDef ret = typeDefStore.updateClassificationDefByGuid(guid, classificationDef);
 
@@ -271,6 +291,7 @@ public class TypesREST {
     @DELETE
     @Path("/classificationdef/name/{name}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public void deleteClassificationDefByName(@PathParam("name") String name) throws AtlasBaseException {
         typeDefStore.deleteClassificationDefByName(name);
     }
@@ -278,6 +299,7 @@ public class TypesREST {
     @DELETE
     @Path("/classificationdef/guid/{guid}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public void deleteClassificationDefByGuid(@PathParam("guid") String guid) throws AtlasBaseException {
         typeDefStore.deleteClassificationDefByGuid(guid);
     }
@@ -286,6 +308,7 @@ public class TypesREST {
     @Path("/classificationdef")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasClassificationDefs searchClassificationDefs() throws AtlasBaseException {
         SearchFilter filter = getSearchFilter();
 
@@ -300,6 +323,7 @@ public class TypesREST {
     @Path("/entitydef")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEntityDef createEntityDef(AtlasEntityDef entityDef) throws AtlasBaseException {
         AtlasEntityDef ret = typeDefStore.createEntityDef(entityDef);
 
@@ -309,6 +333,7 @@ public class TypesREST {
     @GET
     @Path("/entitydef/name/{name}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEntityDef getEntityDefByName(@PathParam("name") String name) throws AtlasBaseException {
         AtlasEntityDef ret = typeDefStore.getEntityDefByName(name);
 
@@ -318,6 +343,7 @@ public class TypesREST {
     @GET
     @Path("/entitydef/guid/{guid}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEntityDef getEntityDefByGuid(@PathParam("guid") String guid) throws AtlasBaseException {
         AtlasEntityDef ret = typeDefStore.getEntityDefByGuid(guid);
 
@@ -329,6 +355,7 @@ public class TypesREST {
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
     @Experimental
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEntityDef updateEntityDefByName(@PathParam("name") String name, AtlasEntityDef entityDef) throws AtlasBaseException {
         AtlasEntityDef ret = typeDefStore.updateEntityDefByName(name, entityDef);
 
@@ -340,6 +367,7 @@ public class TypesREST {
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
     @Experimental
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEntityDef updateEntityDefByGuid(@PathParam("guid") String guid, AtlasEntityDef entityDef) throws AtlasBaseException {
         AtlasEntityDef ret = typeDefStore.updateEntityDefByGuid(guid, entityDef);
 
@@ -350,6 +378,7 @@ public class TypesREST {
     @Path("/entitydef/name/{name}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
     @Experimental
+    @CollectMetric(metricName = "RESTApi")
     public void deleteEntityDef(@PathParam("name") String name) throws AtlasBaseException {
         typeDefStore.deleteEntityDefByName(name);
     }
@@ -358,6 +387,7 @@ public class TypesREST {
     @Path("/entitydef/guid/{guid}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
     @Experimental
+    @CollectMetric(metricName = "RESTApi")
     public void deleteEntityDefByGuid(@PathParam("guid") String guid) throws AtlasBaseException {
         typeDefStore.deleteEntityDefByGuid(guid);
     }
@@ -365,6 +395,7 @@ public class TypesREST {
     @GET
     @Path("/entitydef")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEntityDefs searchEntityDefs() throws AtlasBaseException {
         SearchFilter filter = getSearchFilter();
         AtlasEntityDefs ret = typeDefStore.searchEntityDefs(filter);
@@ -384,6 +415,7 @@ public class TypesREST {
     @GET
     @Path("/typedefs/headers")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public List<AtlasTypeDefHeader> getTypeDefHeaders() throws AtlasBaseException {
         SearchFilter searchFilter = getSearchFilter();
 
@@ -400,6 +432,7 @@ public class TypesREST {
     @GET
     @Path("/typedefs")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasTypesDef getAllTypeDefs() throws AtlasBaseException {
         SearchFilter searchFilter = getSearchFilter();
 
@@ -420,6 +453,7 @@ public class TypesREST {
     @Path("/typedefs")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasTypesDef createAtlasTypeDefs(final AtlasTypesDef typesDef) throws AtlasBaseException {
         AtlasTypesDef ret = typeDefStore.createTypesDef(typesDef);
 
@@ -437,6 +471,7 @@ public class TypesREST {
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
     @Experimental
+    @CollectMetric(metricName = "RESTApi")
     public AtlasTypesDef updateAtlasTypeDefs(final AtlasTypesDef typesDef) throws AtlasBaseException {
         AtlasTypesDef ret = typeDefStore.updateTypesDef(typesDef);
 
@@ -453,6 +488,7 @@ public class TypesREST {
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
     @Experimental
+    @CollectMetric(metricName = "RESTApi")
     public void deleteAtlasTypeDefs(final AtlasTypesDef typesDef) throws AtlasBaseException {
         typeDefStore.deleteTypesDef(typesDef);
     }

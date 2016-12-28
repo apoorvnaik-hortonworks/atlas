@@ -22,6 +22,12 @@ package org.apache.atlas;
  * Constants used in Atlas configuration.
  */
 public final class AtlasConstants {
+    public static final String ATLAS_METRICS_ENABLED = "atlas.metrics.enabled";
+    public static final String ATLAS_METRICS_COLLECTION_INCLUDES = "atlas.metrics.collection.includes";
+    public static final String ATLAS_METRICS_COLLECTION_EXCLUDES = "atlas.metrics.collection.excludes";
+    public static final String ATLAS_METRICS_COLLECTION_INTERVAL = "atlas.metrics.collection.intervalInSecs";
+    public static final String ATLAS_METRICS_PUBLISH_INTERVAL = "atlas.metrics.publish.intervalInSecs";
+
     private AtlasConstants() {
     }
 

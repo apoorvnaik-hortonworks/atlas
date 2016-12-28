@@ -24,7 +24,7 @@ import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasConstants;
 import org.apache.atlas.AtlasException;
 import org.apache.atlas.EntityAuditEvent;
-import org.apache.atlas.aspect.Monitored;
+import org.apache.atlas.metrics.annotations.Monitored;
 import org.apache.atlas.services.MetadataService;
 import org.apache.atlas.typesystem.IStruct;
 import org.apache.atlas.typesystem.Referenceable;

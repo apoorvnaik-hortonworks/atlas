@@ -21,6 +21,7 @@ import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasErrorCode;
 import org.apache.atlas.AtlasException;
 import org.apache.atlas.exception.AtlasBaseException;
+import org.apache.atlas.metrics.annotations.CollectMetric;
 import org.apache.atlas.model.SearchFilter;
 import org.apache.atlas.model.instance.AtlasEntity;
 import org.apache.atlas.model.instance.AtlasEntityHeader;
@@ -87,6 +88,7 @@ public class EntitiesREST {
     @POST
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public EntityMutationResponse createOrUpdate(List<AtlasEntity> entities) throws AtlasBaseException {
         EntityMutationResponse response = null;
         ITypedReferenceableInstance[] entitiesInOldFormat = restAdapters.getITypedReferenceables(entities);
@@ -109,6 +111,7 @@ public class EntitiesREST {
     @PUT
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public EntityMutationResponse update(List<AtlasEntity> entities) throws AtlasBaseException {
        return createOrUpdate(entities);
     }
@@ -117,6 +120,7 @@ public class EntitiesREST {
     @Path("/guids")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEntity.AtlasEntities getById(@QueryParam("guid") List<String> guids) throws AtlasBaseException {
 
         if (CollectionUtils.isEmpty(guids)) {
@@ -149,6 +153,7 @@ public class EntitiesREST {
     @Path("/guids")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public EntityMutationResponse deleteById(@QueryParam("guid") final List<String> guids) throws AtlasBaseException {
 
         if (CollectionUtils.isEmpty(guids)) {
@@ -169,6 +174,7 @@ public class EntitiesREST {
      */
     @GET
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEntityHeader.AtlasEntityHeaders searchEntities() throws AtlasBaseException {
         SearchFilter searchFilter = getSearchFilter();
         AtlasEntity.AtlasEntities atlasEntities = entitiesStore.searchEntities(searchFilter);

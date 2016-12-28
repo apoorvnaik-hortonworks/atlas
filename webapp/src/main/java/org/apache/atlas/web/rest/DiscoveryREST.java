@@ -19,6 +19,7 @@ package org.apache.atlas.web.rest;
 
 import org.apache.atlas.exception.AtlasBaseException;
 import org.apache.atlas.discovery.AtlasDiscoveryService;
+import org.apache.atlas.metrics.annotations.CollectMetric;
 import org.apache.atlas.model.discovery.AtlasSearchResult;
 import org.apache.atlas.web.util.Servlets;
 
@@ -44,6 +45,7 @@ public class DiscoveryREST {
     @Path("/dsl")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasSearchResult searchUsingDSL(@QueryParam("query") String query,
                                             @QueryParam("limit") int limit,
                                             @QueryParam("offset") int offset) throws AtlasBaseException {
@@ -57,6 +59,7 @@ public class DiscoveryREST {
     @Path("/fulltext")
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasSearchResult searchUsingFullText(@QueryParam("query") String query,
                                                  @QueryParam("limit") int limit,
                                                  @QueryParam("offset") int offset) throws AtlasBaseException {

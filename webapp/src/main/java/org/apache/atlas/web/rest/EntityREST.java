@@ -21,6 +21,7 @@ import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasErrorCode;
 import org.apache.atlas.AtlasException;
 import org.apache.atlas.exception.AtlasBaseException;
+import org.apache.atlas.metrics.annotations.CollectMetric;
 import org.apache.atlas.model.TypeCategory;
 import org.apache.atlas.model.instance.AtlasClassification;
 import org.apache.atlas.model.instance.AtlasEntity;
@@ -82,6 +83,7 @@ public class EntityREST {
     @POST
     @Consumes({Servlets.JSON_MEDIA_TYPE, MediaType.APPLICATION_JSON})
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public EntityMutationResponse createOrUpdate(final AtlasEntity entity) throws AtlasBaseException {
         EntityMutationResponse response = null;
         ITypedReferenceableInstance[] entitiesInOldFormat = restAdapters.getITypedReferenceables(new ArrayList<AtlasEntity>() {{ add(entity); }});
@@ -107,6 +109,7 @@ public class EntityREST {
     @Path("guid/{guid}")
     @Consumes({Servlets.JSON_MEDIA_TYPE, MediaType.APPLICATION_JSON})
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public EntityMutationResponse updateByGuid(@PathParam("guid") String guid, AtlasEntity entity, @DefaultValue("false") @QueryParam("partialUpdate") boolean partialUpdate) throws AtlasBaseException {
         return createOrUpdate(entity);
     }
@@ -120,6 +123,7 @@ public class EntityREST {
     @GET
     @Path("/guid/{guid}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEntity getById(@PathParam("guid") String guid) throws AtlasBaseException {
         try {
             ITypedReferenceableInstance ref = metadataService.getEntityDefinition(guid);
@@ -138,6 +142,7 @@ public class EntityREST {
     @GET
     @Path("/guid/{guid}/associations")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEntityWithAssociations getWithAssociationsByGuid(@PathParam("guid") String guid) throws AtlasBaseException {
         try {
             ITypedReferenceableInstance ref = metadataService.getEntityDefinition(guid);
@@ -159,6 +164,7 @@ public class EntityREST {
     @Path("guid/{guid}")
     @Consumes({Servlets.JSON_MEDIA_TYPE, MediaType.APPLICATION_JSON})
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public EntityMutationResponse deleteByGuid(@PathParam("guid") final String guid) throws AtlasBaseException {
         if (StringUtils.isEmpty(guid)) {
             throw new AtlasBaseException(AtlasErrorCode.INSTANCE_GUID_NOT_FOUND, guid);
@@ -183,6 +189,7 @@ public class EntityREST {
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
     @Path("/uniqueAttribute/type/{typeName}/attribute/{attrName}")
+    @CollectMetric(metricName = "RESTApi")
     public EntityMutationResponse partialUpdateByUniqueAttribute(@PathParam("typeName") String entityType,
         @PathParam("attrName") String attribute,
         @QueryParam("value") String value, AtlasEntity entity) throws Exception {
@@ -200,6 +207,7 @@ public class EntityREST {
     @Consumes(Servlets.JSON_MEDIA_TYPE)
     @Produces(Servlets.JSON_MEDIA_TYPE)
     @Path("/uniqueAttribute/type/{typeName}/attribute/{attrName}")
+    @CollectMetric(metricName = "RESTApi")
     public EntityMutationResponse deleteByUniqueAttribute(@PathParam("typeName") String entityType,
         @PathParam("attrName") String attribute,
         @QueryParam("value") String value) throws Exception {
@@ -220,6 +228,7 @@ public class EntityREST {
     @Consumes({Servlets.JSON_MEDIA_TYPE, MediaType.APPLICATION_JSON})
     @Produces(Servlets.JSON_MEDIA_TYPE)
     @Path("/uniqueAttribute/type/{typeName}/attribute/{attrName}")
+    @CollectMetric(metricName = "RESTApi")
     public AtlasEntity getByUniqueAttribute(@PathParam("typeName") String entityType,
         @PathParam("attrName") String attribute,
         @QueryParam("value") String value) throws AtlasBaseException {
@@ -245,6 +254,7 @@ public class EntityREST {
     @GET
     @Path("/guid/{guid}/classification/{classificationName}")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasClassification getClassification(@PathParam("guid") String guid, @PathParam("classificationName") String classificationName) throws AtlasBaseException {
 
         if (StringUtils.isEmpty(guid)) {
@@ -272,6 +282,7 @@ public class EntityREST {
     @GET
     @Path("/guid/{guid}/classifications")
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public AtlasClassification.AtlasClassifications getClassifications(@PathParam("guid") String guid) throws AtlasBaseException {
 
         if (StringUtils.isEmpty(guid)) {
@@ -309,6 +320,7 @@ public class EntityREST {
     @Path("/guid/{guid}/classifications")
     @Consumes({Servlets.JSON_MEDIA_TYPE, MediaType.APPLICATION_JSON})
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public void addClassifications(@PathParam("guid") final String guid, List<AtlasClassification> classifications) throws AtlasBaseException {
 
         if (StringUtils.isEmpty(guid)) {
@@ -337,6 +349,7 @@ public class EntityREST {
     @Path("/guid/{guid}/classifications")
     @Consumes({Servlets.JSON_MEDIA_TYPE, MediaType.APPLICATION_JSON})
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public void updateClassifications(@PathParam("guid") final String guid, List<AtlasClassification> classifications) throws AtlasBaseException {
         //Not supported in old API
 
@@ -355,6 +368,7 @@ public class EntityREST {
     @Path("/guid/{guid}/classification/{classificationName}")
     @Consumes({Servlets.JSON_MEDIA_TYPE, MediaType.APPLICATION_JSON})
     @Produces(Servlets.JSON_MEDIA_TYPE)
+    @CollectMetric(metricName = "RESTApi")
     public void deleteClassification(@PathParam("guid") String guid,
         @PathParam("classificationName") String classificationName) throws AtlasBaseException {
 

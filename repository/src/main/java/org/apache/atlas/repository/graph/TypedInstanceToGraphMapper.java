@@ -20,7 +20,7 @@ package org.apache.atlas.repository.graph;
 import com.google.inject.Inject;
 import org.apache.atlas.AtlasException;
 import org.apache.atlas.RequestContext;
-import org.apache.atlas.aspect.Monitored;
+import org.apache.atlas.metrics.annotations.Monitored;
 import org.apache.atlas.repository.Constants;
 import org.apache.atlas.repository.RepositoryException;
 import org.apache.atlas.repository.graphdb.AtlasEdge;
