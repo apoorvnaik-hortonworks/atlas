@@ -66,6 +66,10 @@ public abstract class SearchProcessor {
     public static final String  BRACE_OPEN_STR  = "(";
     public static final String  BRACE_CLOSE_STR = ")";
 
+    // ATLAS-2117: Special characters cause string to be split into tokens, which sometimes gives false negatives
+    private static final char[] OFFENDING_DELIMITERS = {'+', '-', '&', '|', '!', '(', ')', '{', '}', '[', ']',
+            '^', '"', '~', '*', '?', ':', '/', '#', '$', '%', '@', '='};
+
     private static final Map<SearchParameters.Operator, String>                            OPERATOR_MAP           = new HashMap<>();
     private static final Map<SearchParameters.Operator, VertexAttributePredicateGenerator> OPERATOR_PREDICATE_MAP = new HashMap<>();
 
@@ -168,8 +172,6 @@ public abstract class SearchProcessor {
                 if (isIndexSearchable(filterCriteria, structType)) {
                     indexFiltered.add(attributeName);
                 } else {
-                    LOG.warn("not using index-search for attribute '{}' - its either non-indexed or a string attribute used with NEQ operator; might cause poor performance", structType.getQualifiedAttributeName(attributeName));
-
                     graphFiltered.add(attributeName);
                 }
 
@@ -330,12 +332,22 @@ public abstract class SearchProcessor {
         if (ret) { // index exists
             // Don't use index query for NEQ on string type attributes - as it might return fewer entries due to tokenization of vertex property value by indexer
             if (filterCriteria.getOperator() == SearchParameters.Operator.NEQ) {
+                // ATLAS-2117: Solr Tokenization issues with NEQ operator for string attributes
+                LOG.warn("NEQ operator found with string attribute {}, defer to in-memory or graph query (might cause poor performance)", qualifiedName);
+
                 AtlasType attributeType = structType.getAttributeType(filterCriteria.getAttributeName());
 
                 if (AtlasBaseTypeDef.ATLAS_TYPE_STRING.equals(attributeType.getTypeName())) {
                     ret = false;
                 }
+            } else if (StringUtils.containsAny(filterCriteria.getAttributeValue(), OFFENDING_DELIMITERS)) {
+                // ATLAS-2117 : Current tokenization in solr causes false negatives, once the data is re-indexed
+                // this check can be removed
+                LOG.warn("AttributeValue {} has special Tokenizer characters, defer to in-memory or graph query (might cause poor performance)", filterCriteria.getAttributeValue());
+                ret = false;
             }
+        } else {
+            LOG.warn("Attribute {} is not indexed, defer to in-memory or graph query (might cause poor performance)", qualifiedName);
         }
 
         return ret;
@@ -356,7 +368,6 @@ public abstract class SearchProcessor {
                     if (nestedExpression.length() > 0) {
                         nestedExpression.append(SPACE_STRING).append(criteria.getCondition()).append(SPACE_STRING);
                     }
-                    // todo: when a neq operation is nested and occurs in the beginning of the query, index query has issues
                     nestedExpression.append(nestedQuery);
                 }
             }
