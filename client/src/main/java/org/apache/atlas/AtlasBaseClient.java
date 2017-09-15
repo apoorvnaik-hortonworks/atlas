@@ -27,8 +27,14 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.api.json.JSONConfiguration;
 import com.sun.jersey.client.urlconnection.URLConnectionClientHandler;
+import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.MultiPart;
+import com.sun.jersey.multipart.file.FileDataBodyPart;
+import org.apache.atlas.model.impexp.AtlasImportRequest;
+import org.apache.atlas.model.impexp.AtlasImportResult;
 import org.apache.atlas.model.metrics.AtlasMetrics;
 import org.apache.atlas.security.SecureClientUtils;
+import org.apache.atlas.type.AtlasType;
 import org.apache.atlas.utils.AuthenticationUtil;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
@@ -44,6 +50,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import java.io.File;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.util.List;
@@ -57,6 +64,7 @@ public abstract class AtlasBaseClient {
     public static final String ADMIN_VERSION = "admin/version";
     public static final String ADMIN_STATUS = "admin/status";
     public static final String ADMIN_METRICS = "admin/metrics";
+    public static final String ADMIN_IMPORT = "admin/import";
     public static final String HTTP_AUTHENTICATION_ENABLED = "atlas.http.authentication.enabled";
     //Admin operations
     public static final APIInfo VERSION = new APIInfo(BASE_URI + ADMIN_VERSION, HttpMethod.GET, Response.Status.OK);
@@ -72,6 +80,7 @@ public abstract class AtlasBaseClient {
     // With number of retries, this gives a total time of about 20s for the server to start.
     static final int DEFAULT_SLEEP_BETWEEN_RETRIES_MS = 5000;
     private static final Logger LOG = LoggerFactory.getLogger(AtlasBaseClient.class);
+    private static final APIInfo IMPORT = new APIInfo(BASE_URI + ADMIN_IMPORT, HttpMethod.POST, Response.Status.OK, MediaType.MULTIPART_FORM_DATA, MediaType.APPLICATION_JSON);
     protected WebResource service;
     protected Configuration configuration;
     private String basicAuthUser;
@@ -301,15 +310,20 @@ public abstract class AtlasBaseClient {
         int i = 0;
         do {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Calling API [ {} : {} ] {}", api.getMethod(), api.getPath(), requestObject != null ? "<== " + requestObject : "");
+                LOG.debug("Call         : {} {}", api.getMethod(), api.getPath());
+                LOG.debug("Content-type : {} ", api.getConsumes());
+                LOG.debug("Accept       : {} ", api.getProduces());
+                if (requestObject != null) {
+                    LOG.debug("Request      : {}", requestObject);
+                }
             }
 
             WebResource.Builder requestBuilder = resource.getRequestBuilder();
 
             // Set content headers
             requestBuilder
-                    .accept(JSON_MEDIA_TYPE)
-                    .type(JSON_MEDIA_TYPE);
+                    .accept(api.getProduces())
+                    .type(api.getConsumes());
 
             // Set cookie if present
             if (cookie != null) {
@@ -323,11 +337,11 @@ public abstract class AtlasBaseClient {
             }
 
             if (clientResponse.getStatus() == api.getExpectedStatus().getStatusCode()) {
-                if (null == responseType) {
+                if (responseType == null) {
                     return null;
                 }
                 try {
-                    if (responseType.getRawClass() == JSONObject.class) {
+                    if (responseType.getRawClass().equals(JSONObject.class)) {
                         String stringEntity = clientResponse.getEntity(String.class);
                         try {
                             JSONObject jsonObject = new JSONObject(stringEntity);
@@ -403,6 +417,15 @@ public abstract class AtlasBaseClient {
      */
     public AtlasMetrics getAtlasMetrics() throws AtlasServiceException {
         return callAPI(METRICS, AtlasMetrics.class, null);
+    }
+
+    public AtlasImportResult importData(AtlasImportRequest request, String absoluteFilePath) throws AtlasServiceException {
+        FileDataBodyPart filePart = new FileDataBodyPart("data", new File(absoluteFilePath));
+        MultiPart multipartEntity = new FormDataMultiPart()
+                .field("request", AtlasType.toJson(request), MediaType.APPLICATION_JSON_TYPE)
+                .bodyPart(filePart);
+
+        return callAPI(IMPORT, AtlasImportResult.class, multipartEntity);
     }
 
     boolean isRetryableException(ClientHandlerException che) {
@@ -561,12 +584,25 @@ public abstract class AtlasBaseClient {
     public static class APIInfo {
         private final String method;
         private final String path;
+        private final String consumes;
+        private final String produces;
         private final Response.Status status;
 
         public APIInfo(String path, String method, Response.Status status) {
             this.path = path;
             this.method = method;
             this.status = status;
+
+            consumes = "application/json; charset=UTF-8";
+            produces = "application/json";
+        }
+
+        public APIInfo(String path, String method, Response.Status status, String consumes, String produces) {
+            this.path = path;
+            this.method = method;
+            this.status = status;
+            this.consumes = consumes;
+            this.produces = produces;
         }
 
         public String getMethod() {
@@ -579,6 +615,14 @@ public abstract class AtlasBaseClient {
 
         public Response.Status getExpectedStatus() {
             return status;
+        }
+
+        public String getConsumes() {
+            return consumes;
+        }
+
+        public String getProduces() {
+            return produces;
         }
     }
 
