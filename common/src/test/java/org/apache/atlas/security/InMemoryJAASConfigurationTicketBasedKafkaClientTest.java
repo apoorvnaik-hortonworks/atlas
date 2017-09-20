@@ -18,21 +18,27 @@
 
 package org.apache.atlas.security;
 
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.Configuration;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-import org.testng.annotations.Test;
+import static org.testng.Assert.fail;
+
+//import junit.framework.Assert;
+//import junit.framework.TestCase;
 
 
 @Test
-public class InMemoryJAASConfigurationTicketBasedKafkaClientTest extends TestCase {
+public class InMemoryJAASConfigurationTicketBasedKafkaClientTest {
 
     private static final String ATLAS_JAAS_PROP_FILE = "atlas-jaas.properties";
 
+    @BeforeClass
     protected void setUp() throws Exception {
-        super.setUp();
+//        super.setUp();
         try {
             InMemoryJAASConfiguration.init(ATLAS_JAAS_PROP_FILE);
             InMemoryJAASConfiguration.setConfigSectionRedirect("KafkaClient", "ticketBased-KafkaClient");
@@ -40,11 +46,6 @@ public class InMemoryJAASConfigurationTicketBasedKafkaClientTest extends TestCas
             fail("InMemoryJAASConfiguration.init() is not expected to throw Exception:" + t);
         }
     }
-
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
 
     @Test
     public void testGetAppConfigurationEntryStringForticketBasedKafkaClient() {
