@@ -50,7 +50,7 @@
 
         <dependency>
             <groupId>org.apache.atlas</groupId>
-            <artifactId>atlas-client</artifactId>
+            <artifactId>atlas-v1-client</artifactId>
         </dependency>
 
         <dependency>
