@@ -546,12 +546,18 @@ public class SearchPredicateUtil {
     }
 
     static abstract class VertexAttributePredicate implements Predicate {
-        final String attrName;
-        final Class  attrClass;
+        final String  attrName;
+        final Class   attrClass;
+        final boolean nullCompareAllowed;
 
         VertexAttributePredicate(String attrName, Class attrClass) {
-            this.attrName  = attrName;
+            this(attrName, attrClass, false);
+        }
+
+        VertexAttributePredicate(String attrName, Class attrClass, boolean nullCompareAllowed) {
+            this.attrName = attrName;
             this.attrClass = attrClass;
+            this.nullCompareAllowed = nullCompareAllowed;
         }
 
         @Override
@@ -568,7 +574,7 @@ public class SearchPredicateUtil {
                     attrValue = AtlasGraphUtilsV1.getProperty(vertex, attrName, attrClass);
                 }
 
-                ret = attrValue != null && compareValue(attrValue);
+                ret = (attrValue != null || nullCompareAllowed) && compareValue(attrValue);
             } else {
                 ret = false;
             }
@@ -1078,6 +1084,12 @@ public class SearchPredicateUtil {
             this.value = value;
         }
 
+        StringPredicate(String attrName, Class attrClass, String value, boolean nullCompareAllowed) {
+            super(attrName, attrClass, nullCompareAllowed);
+
+            this.value = value;
+        }
+
         static VertexAttributePredicate getEQPredicate(String attrName, Class attrClass, String value) {
             return new StringPredicate(attrName, attrClass, value) {
                 protected boolean compareValue(Object value) {
@@ -1087,9 +1099,9 @@ public class SearchPredicateUtil {
         }
 
         static VertexAttributePredicate getNEQPredicate(String attrName, Class attrClass, String value) {
-            return new StringPredicate(attrName, attrClass, value) {
+            return new StringPredicate(attrName, attrClass, value, true) {
                 protected boolean compareValue(Object value) {
-                    return ((String)value).compareTo(this.value) != 0;
+                    return value == null || ((String) value).compareTo(this.value) != 0;
                 }
             };
         }
