@@ -103,6 +103,14 @@ public abstract class SearchProcessor {
 
         OPERATOR_MAP.put(SearchParameters.Operator.CONTAINS, "v.\"%s\": (*%s*)");
         OPERATOR_PREDICATE_MAP.put(SearchParameters.Operator.CONTAINS, getContainsPredicateGenerator());
+
+        // TODO: Add contains any, contains all mappings here
+
+        OPERATOR_MAP.put(SearchParameters.Operator.IS_NULL, "(*:* NOT v.\"%s\":[* TO *])");
+        OPERATOR_PREDICATE_MAP.put(SearchParameters.Operator.IS_NULL, getIsNullPredicateGenerator());
+
+        OPERATOR_MAP.put(SearchParameters.Operator.NOT_NULL, "v.\"%s\":[* TO *]");
+        OPERATOR_PREDICATE_MAP.put(SearchParameters.Operator.NOT_NULL, getNotNullPredicateGenerator());
     }
 
     protected final SearchContext   context;
@@ -428,9 +436,10 @@ public abstract class SearchProcessor {
 
         try {
             if (OPERATOR_MAP.get(op) != null) {
-                String qualifiedName = type.getQualifiedAttributeName(attrName);
+                String qualifiedName         = type.getQualifiedAttributeName(attrName);
+                String escapeIndexQueryValue = AtlasAttribute.escapeIndexQueryValue(attrVal);
 
-                ret = String.format(OPERATOR_MAP.get(op), qualifiedName, AtlasStructType.AtlasAttribute.escapeIndexQueryValue(attrVal));
+                ret = String.format(OPERATOR_MAP.get(op), qualifiedName, escapeIndexQueryValue);
             }
         } catch (AtlasBaseException ex) {
             LOG.warn(ex.getMessage());
@@ -450,6 +459,7 @@ public abstract class SearchProcessor {
             final Class     attrClass;
             final Object    attrValue;
 
+            // Some operators support null comparison, thus the parsing has to be conditional
             switch (attrType.getTypeName()) {
                 case AtlasBaseTypeDef.ATLAS_TYPE_STRING:
                     attrClass = String.class;
@@ -457,40 +467,40 @@ public abstract class SearchProcessor {
                     break;
                 case AtlasBaseTypeDef.ATLAS_TYPE_SHORT:
                     attrClass = Short.class;
-                    attrValue = Short.parseShort(attrVal);
+                    attrValue = attrVal == null ? null : Short.parseShort(attrVal);
                     break;
                 case AtlasBaseTypeDef.ATLAS_TYPE_INT:
                     attrClass = Integer.class;
-                    attrValue = Integer.parseInt(attrVal);
+                    attrValue = attrVal == null ? null : Integer.parseInt(attrVal);
                     break;
                 case AtlasBaseTypeDef.ATLAS_TYPE_BIGINTEGER:
                     attrClass = BigInteger.class;
-                    attrValue = new BigInteger(attrVal);
+                    attrValue = attrVal == null ? null : new BigInteger(attrVal);
                     break;
                 case AtlasBaseTypeDef.ATLAS_TYPE_BOOLEAN:
                     attrClass = Boolean.class;
-                    attrValue = Boolean.parseBoolean(attrVal);
+                    attrValue = attrVal == null ? null : Boolean.parseBoolean(attrVal);
                     break;
                 case AtlasBaseTypeDef.ATLAS_TYPE_BYTE:
                     attrClass = Byte.class;
-                    attrValue = Byte.parseByte(attrVal);
+                    attrValue = attrVal == null ? null : Byte.parseByte(attrVal);
                     break;
                 case AtlasBaseTypeDef.ATLAS_TYPE_LONG:
                 case AtlasBaseTypeDef.ATLAS_TYPE_DATE:
                     attrClass = Long.class;
-                    attrValue = Long.parseLong(attrVal);
+                    attrValue = attrVal == null ? null : Long.parseLong(attrVal);
                     break;
                 case AtlasBaseTypeDef.ATLAS_TYPE_FLOAT:
                     attrClass = Float.class;
-                    attrValue = Float.parseFloat(attrVal);
+                    attrValue = attrVal == null ? null : Float.parseFloat(attrVal);
                     break;
                 case AtlasBaseTypeDef.ATLAS_TYPE_DOUBLE:
                     attrClass = Double.class;
-                    attrValue = Double.parseDouble(attrVal);
+                    attrValue = attrVal == null ? null : Double.parseDouble(attrVal);
                     break;
                 case AtlasBaseTypeDef.ATLAS_TYPE_BIGDECIMAL:
                     attrClass = BigDecimal.class;
-                    attrValue = new BigDecimal(attrVal);
+                    attrValue = attrVal == null ? null : new BigDecimal(attrVal);
                     break;
                 default:
                     if (attrType instanceof AtlasEnumType) {
@@ -572,7 +582,13 @@ public abstract class SearchProcessor {
                         case ENDS_WITH:
                             query.has(qualifiedName, AtlasGraphQuery.MatchingOperator.REGEX, getSuffixRegex(attrValue));
                             break;
-                        case IN:
+                        case IS_NULL:
+                            query.has(qualifiedName, AtlasGraphQuery.ComparisionOperator.EQUAL, null);
+                            break;
+                        case NOT_NULL:
+                            query.has(qualifiedName, AtlasGraphQuery.ComparisionOperator.NOT_EQUAL, null);
+                            break;
+                        default:
                             LOG.warn("{}: unsupported operator. Ignored", operator);
                             break;
                     }
@@ -621,6 +637,12 @@ public abstract class SearchProcessor {
                 break;
             case CONTAINS:
                 queryTemplate = queryProvider.getQuery(AtlasGremlinQueryProvider.AtlasGremlinQuery.COMPARE_CONTAINS);
+                break;
+            case IS_NULL:
+                queryTemplate = queryProvider.getQuery(AtlasGremlinQueryProvider.AtlasGremlinQuery.COMPARE_IS_NULL);
+                break;
+            case NOT_NULL:
+                queryTemplate = queryProvider.getQuery(AtlasGremlinQueryProvider.AtlasGremlinQuery.COMPARE_NOT_NULL);
                 break;
         }
 
@@ -680,6 +702,10 @@ public abstract class SearchProcessor {
     }
 
     private static boolean hasIndexQuerySpecialChar(String attributeValue) {
+        if (attributeValue == null) {
+            return false;
+        }
+
         for (int i = 0; i < attributeValue.length(); i++) {
             if (isIndexQuerySpecialChar(attributeValue.charAt(i))) {
                 return true;
