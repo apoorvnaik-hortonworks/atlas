@@ -30,7 +30,6 @@ import org.apache.atlas.typesystem.Referenceable;
 import org.apache.atlas.typesystem.Struct;
 import org.apache.atlas.typesystem.persistence.Id;
 import org.apache.atlas.typesystem.types.TypeSystem;
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hive.metastore.TableType;
@@ -55,11 +54,7 @@ import java.text.ParseException;
 import java.util.*;
 
 import static org.apache.atlas.AtlasClient.NAME;
-import static org.apache.atlas.hive.hook.HiveHook.IO_SEP;
-import static org.apache.atlas.hive.hook.HiveHook.SEP;
-import static org.apache.atlas.hive.hook.HiveHook.entityComparator;
-import static org.apache.atlas.hive.hook.HiveHook.getProcessQualifiedName;
-import static org.apache.atlas.hive.hook.HiveHook.lower;
+import static org.apache.atlas.hive.hook.HiveHook.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
@@ -1803,7 +1798,7 @@ public class HiveHookIT extends HiveITBase {
     }
 
     private void assertEntityIsNotRegistered(final String typeName, final String property, final String value) throws Exception {
-        waitFor(1000, new Predicate() {
+        waitFor(5000, new Predicate() {
             @Override
             public void evaluate() throws Exception {
                 try {

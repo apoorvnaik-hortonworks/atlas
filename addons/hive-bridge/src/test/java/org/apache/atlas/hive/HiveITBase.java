@@ -155,7 +155,7 @@ public class HiveITBase {
 
     protected String assertEntityIsRegistered(final String typeName, final String property, final String value,
                                             final HiveHookIT.AssertPredicate assertPredicate) throws Exception {
-        waitFor(1000, new HiveHookIT.Predicate() {
+        waitFor(5000, new HiveHookIT.Predicate() {
             @Override
             public void evaluate() throws Exception {
                 Referenceable entity = atlasClient.getEntity(typeName, property, value);
@@ -202,7 +202,7 @@ public class HiveITBase {
                     fail("Assertions failed. Failing after waiting for timeout " + timeout + " msecs", e);
                 }
                 LOG.debug("Waiting up to {} msec as assertion failed", mustEnd - System.currentTimeMillis(), e);
-                Thread.sleep(5000);
+                Thread.sleep(5500);
             }
         }
     }
