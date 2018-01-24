@@ -18,6 +18,7 @@
 
 package org.apache.atlas.storm.hook;
 
+import org.apache.atlas.utils.HdfsNameServiceResolver;
 import org.apache.atlas.v1.model.instance.Referenceable;
 import org.apache.storm.ISubmitterHook;
 import org.apache.storm.generated.Bolt;
@@ -63,6 +64,8 @@ public class StormAtlasHook extends AtlasHook implements ISubmitterHook {
     public static final String ANONYMOUS_OWNER = "anonymous";
 
     public static final String HBASE_NAMESPACE_DEFAULT = "default";
+
+    private final HdfsNameServiceResolver hdfsNameServiceResolver = HdfsNameServiceResolver.getInstance();
 
     @Override
     protected String getNumberOfRetriesPropertyKey() {
@@ -214,10 +217,20 @@ public class StormAtlasHook extends AtlasHook implements ISubmitterHook {
                 String hdfsUri = config.get("HdfsBolt.rotationActions") == null
                         ? config.get("HdfsBolt.fileNameFormat.path")
                         : config.get("HdfsBolt.rotationActions");
-                final String hdfsPathStr = config.get("HdfsBolt.fsUrl") + hdfsUri;
+
+                final String hdfsPathStr   = config.get("HdfsBolt.fsUrl") + hdfsUri;
+                final String nameServiceID = hdfsNameServiceResolver.getNameServiceIDForPath(hdfsPathStr);
+
                 dataSetReferenceable.set(AtlasConstants.CLUSTER_NAME_ATTRIBUTE, getClusterName(stormConf));
-                dataSetReferenceable.set(AtlasClient.REFERENCEABLE_ATTRIBUTE_NAME, hdfsPathStr);
-                dataSetReferenceable.set("path", hdfsPathStr);
+                if (StringUtils.isNotEmpty(nameServiceID)) {
+                    String updatedPath = hdfsNameServiceResolver.getPathWithNameServiceID(hdfsPathStr);
+                    dataSetReferenceable.set("path", updatedPath);
+                    dataSetReferenceable.set("nameServiceId", nameServiceID);
+                    dataSetReferenceable.set(AtlasClient.REFERENCEABLE_ATTRIBUTE_NAME, updatedPath + "@" + getClusterName(stormConf));
+                } else {
+                    dataSetReferenceable.set("path", hdfsPathStr);
+                    dataSetReferenceable.set(AtlasClient.REFERENCEABLE_ATTRIBUTE_NAME, hdfsPathStr + "@" + getClusterName(stormConf));
+                }
                 dataSetReferenceable.set(AtlasClient.OWNER, stormConf.get("hdfs.kerberos.principal"));
                 final Path hdfsPath = new Path(hdfsPathStr);
                 dataSetReferenceable.set(AtlasClient.NAME, Path.getPathWithoutSchemeAndAuthority(hdfsPath).toString().toLowerCase());
