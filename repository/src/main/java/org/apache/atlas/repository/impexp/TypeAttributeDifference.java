@@ -17,7 +17,6 @@
  */
 package org.apache.atlas.repository.impexp;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.AtlasErrorCode;
 import org.apache.atlas.exception.AtlasBaseException;
 import org.apache.atlas.model.impexp.AtlasImportResult;
@@ -93,7 +92,6 @@ public class TypeAttributeDifference {
         }
     }
 
-    @VisibleForTesting
     boolean addElements(AtlasEnumDef existing, AtlasEnumDef incoming) throws AtlasBaseException {
         return addElements(existing, getElementsAbsentInExisting(existing, incoming));
     }
@@ -102,7 +100,6 @@ public class TypeAttributeDifference {
         return addAttributes(existing, getElementsAbsentInExisting(existing, incoming));
     }
 
-    @VisibleForTesting
     List<AtlasStructDef.AtlasAttributeDef> getElementsAbsentInExisting(AtlasStructDef existing, AtlasStructDef incoming) throws AtlasBaseException {
         List<AtlasStructDef.AtlasAttributeDef> difference = new ArrayList<>();
         for (AtlasStructDef.AtlasAttributeDef attr : incoming.getAttributeDefs()) {
@@ -126,7 +123,6 @@ public class TypeAttributeDifference {
         }
     }
 
-    @VisibleForTesting
     List<AtlasEnumDef.AtlasEnumElementDef> getElementsAbsentInExisting(AtlasEnumDef existing, AtlasEnumDef incoming) throws AtlasBaseException {
         List<AtlasEnumDef.AtlasEnumElementDef> difference = new ArrayList<>();
         for (AtlasEnumDef.AtlasEnumElementDef ed : incoming.getElementDefs()) {

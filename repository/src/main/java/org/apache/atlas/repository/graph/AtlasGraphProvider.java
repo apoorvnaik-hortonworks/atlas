@@ -18,7 +18,6 @@
 
 package org.apache.atlas.repository.graph;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.repository.RepositoryException;
 import org.apache.atlas.repository.graphdb.AtlasGraph;
 import org.apache.atlas.repository.graphdb.GraphDatabase;
@@ -60,7 +59,6 @@ public class AtlasGraphProvider implements IAtlasGraphProvider {
         }
     }
 
-    @VisibleForTesting
     public static void cleanup() {
         getGraphDatabase().cleanup();
     }

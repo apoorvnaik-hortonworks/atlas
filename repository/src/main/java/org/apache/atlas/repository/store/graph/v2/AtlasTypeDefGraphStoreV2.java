@@ -17,8 +17,6 @@
  */
 package org.apache.atlas.repository.store.graph.v2;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 
 import static org.apache.atlas.repository.Constants.TYPE_CATEGORY_PROPERTY_KEY;
 import static org.apache.atlas.repository.Constants.VERTEX_TYPE_PROPERTY_KEY;
@@ -110,7 +108,6 @@ public class AtlasTypeDefGraphStoreV2 extends AtlasTypeDefGraphStore {
 
     AtlasGraph getAtlasGraph() { return atlasGraph; }
 
-    @VisibleForTesting
     public AtlasVertex findTypeVertexByName(String typeName) {
         Iterator results = atlasGraph.query().has(VERTEX_TYPE_PROPERTY_KEY, VERTEX_TYPE)
                 .has(Constants.TYPENAME_PROPERTY_KEY, typeName)
@@ -154,7 +151,7 @@ public class AtlasTypeDefGraphStoreV2 extends AtlasTypeDefGraphStore {
 
     AtlasVertex createTypeVertex(AtlasBaseTypeDef typeDef) {
         // Validate all the required checks
-        Preconditions.checkArgument(StringUtils.isNotBlank(typeDef.getName()), "Type name can't be null/empty");
+        // Preconditions.checkArgument(StringUtils.isNotBlank(typeDef.getName()), "Type name can't be null/empty");
 
         AtlasVertex ret = atlasGraph.addVertex();
 
@@ -315,7 +312,6 @@ public class AtlasTypeDefGraphStoreV2 extends AtlasTypeDefGraphStore {
         return VERTEX_TYPE.equals(vertexType);
     }
 
-    @VisibleForTesting
     public boolean isTypeVertex(AtlasVertex vertex, TypeCategory category) {
         boolean ret = false;
 

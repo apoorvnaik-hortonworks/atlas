@@ -24,7 +24,6 @@ import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.AtlasException;
 import org.apache.atlas.EntityAuditEvent;
 import org.apache.atlas.annotation.ConditionalOnAtlasProperty;
@@ -201,7 +200,6 @@ public class CassandraBasedAuditRepository extends AbstractStorageBasedAuditRepo
     port = APPLICATION_PROPERTIES.getInt(CASSANDRA_PORT_PROPERTY, DEFAULT_PORT);
   }
 
-  @VisibleForTesting
   void startInternal() throws AtlasException {
       createSession();
   }

@@ -17,7 +17,6 @@
  */
 package org.apache.atlas.notification;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasException;
 import org.apache.atlas.listener.EntityChangeListener;
@@ -115,7 +114,6 @@ public class NotificationEntityChangeListener implements EntityChangeListener {
 
 
     // ----- helper methods ----------------------------------------------------
-    @VisibleForTesting
     public static List<Struct> getAllTraits(Referenceable entityDefinition, AtlasTypeRegistry typeRegistry) throws AtlasException {
         List<Struct> ret = new ArrayList<>();
 

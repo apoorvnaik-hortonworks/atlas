@@ -19,7 +19,6 @@
 package org.apache.atlas.web.service;
 
 import com.google.common.base.Charsets;
-import com.google.common.base.Preconditions;
 import org.apache.commons.lang.StringUtils;
 import org.apache.curator.framework.AuthInfo;
 import org.apache.zookeeper.ZooDefs;
@@ -50,9 +49,9 @@ public class AtlasZookeeperSecurityProperties {
     }
 
     private static String[] getComponents(String securityString, String variableName, String formatExample) {
-        Preconditions.checkArgument(!StringUtils.isEmpty(securityString),
-                String.format("%s cannot be null or empty. " +
-                "Needs to be of form %s", variableName, formatExample));
+        // Preconditions.checkArgument(!StringUtils.isEmpty(securityString),
+        //         String.format("%s cannot be null or empty. " +
+        //         "Needs to be of form %s", variableName, formatExample));
         String[] aclComponents = securityString.split(":", 2);
         if (aclComponents.length != 2) {
             throw new IllegalArgumentException(

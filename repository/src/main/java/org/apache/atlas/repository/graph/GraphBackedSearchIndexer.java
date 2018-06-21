@@ -18,8 +18,6 @@
 
 package org.apache.atlas.repository.graph;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasErrorCode;
 import org.apache.atlas.AtlasException;
@@ -111,7 +109,6 @@ public class GraphBackedSearchIndexer implements SearchIndexer, ActiveStateChang
         this(new AtlasGraphProvider(), ApplicationProperties.get(), typeRegistry);
     }
 
-    @VisibleForTesting
     GraphBackedSearchIndexer(IAtlasGraphProvider provider, Configuration configuration, AtlasTypeRegistry typeRegistry)
             throws IndexException, RepositoryException {
         this.provider = provider;
@@ -705,7 +702,7 @@ public class GraphBackedSearchIndexer implements SearchIndexer, ActiveStateChang
     }
 
     private void cleanupIndices(AtlasGraphManagement management, AtlasBaseTypeDef typeDef) {
-        Preconditions.checkNotNull(typeDef, "Cannot process null typedef");
+        // Preconditions.checkNotNull(typeDef, "Cannot process null typedef");
         if (LOG.isDebugEnabled()) {
             LOG.debug("Cleaning up index for {}", typeDef);
         }
@@ -773,7 +770,7 @@ public class GraphBackedSearchIndexer implements SearchIndexer, ActiveStateChang
     }
 
     private void updateIndexForTypeDef(AtlasGraphManagement management, AtlasBaseTypeDef typeDef) {
-        Preconditions.checkNotNull(typeDef, "Cannot index on null typedefs");
+        // Preconditions.checkNotNull(typeDef, "Cannot index on null typedefs");
         if (LOG.isDebugEnabled()) {
             LOG.debug("Creating indexes for type name={}, definition={}", typeDef.getName(), typeDef.getClass());
         }

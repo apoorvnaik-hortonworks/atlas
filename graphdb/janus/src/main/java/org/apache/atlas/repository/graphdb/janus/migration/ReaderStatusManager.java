@@ -18,7 +18,6 @@
 
 package org.apache.atlas.repository.graphdb.janus.migration;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.model.impexp.MigrationStatus;
 import org.apache.atlas.repository.Constants;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
@@ -46,7 +45,6 @@ public class ReaderStatusManager {
     public static final String STATUS_SUCCESS     = "SUCCESS";
     public static final String STATUS_FAILED      = "FAILED";
 
-    @VisibleForTesting
     Object migrationStatusId = null;
     private Vertex migrationStatus   = null;
 

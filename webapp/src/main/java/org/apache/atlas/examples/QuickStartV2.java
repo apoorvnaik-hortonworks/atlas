@@ -18,7 +18,6 @@
 
 package org.apache.atlas.examples;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasClient;
@@ -126,7 +125,6 @@ public class QuickStartV2 {
         runQuickstart(args, basicAuthUsernamePassword);
     }
 
-    @VisibleForTesting
     static void runQuickstart(String[] args, String[] basicAuthUsernamePassword) throws Exception {
         String[] urls = getServerUrl(args);
         QuickStartV2 quickStartV2;

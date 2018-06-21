@@ -18,7 +18,6 @@
 
 package org.apache.atlas.repository.graph;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import org.apache.atlas.ApplicationProperties;
@@ -114,7 +113,6 @@ public final class GraphHelper {
     private static int maxRetries;
     public static long retrySleepTimeMillis;
 
-    @VisibleForTesting
     GraphHelper(AtlasGraph graph) {
         this.graph = graph;
         try {
@@ -136,7 +134,6 @@ public final class GraphHelper {
         return INSTANCE;
     }
 
-    @VisibleForTesting
     static GraphHelper getInstance(AtlasGraph graph) {
         if ( INSTANCE == null) {
             synchronized (GraphHelper.class) {
@@ -1706,7 +1703,6 @@ public final class GraphHelper {
                 string(edge.getOutVertex()), string(edge.getInVertex()));
     }
 
-    @VisibleForTesting
     //Keys copied from com.thinkaurelius.titan.graphdb.types.StandardRelationTypeMaker
     //Titan checks that these chars are not part of any keys. So, encoding...
     public static BiMap<String, String> RESERVED_CHARS_ENCODE_MAP =

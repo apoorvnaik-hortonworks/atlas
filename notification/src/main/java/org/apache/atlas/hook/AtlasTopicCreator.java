@@ -18,7 +18,6 @@
 
 package org.apache.atlas.hook;
 
-import com.google.common.annotations.VisibleForTesting;
 import kafka.admin.AdminUtils;
 import kafka.admin.RackAwareMode;
 import kafka.utils.ZkUtils;
@@ -86,7 +85,6 @@ public class AtlasTopicCreator {
         }
     }
 
-    @VisibleForTesting
     protected boolean handleSecurity(Configuration atlasProperties) {
         if (AuthenticationUtil.isKerberosAuthenticationEnabled(atlasProperties)) {
             String kafkaPrincipal = atlasProperties.getString("atlas.notification.kafka.service.principal");
@@ -105,12 +103,10 @@ public class AtlasTopicCreator {
         return true;
     }
 
-    @VisibleForTesting
     protected boolean ifTopicExists(String topicName, ZkUtils zkUtils) {
         return AdminUtils.topicExists(zkUtils, topicName);
     }
 
-    @VisibleForTesting
     protected void createTopic(Configuration atlasProperties, String topicName, ZkUtils zkUtils) {
         int numPartitions = atlasProperties.getInt("atlas.notification.hook.numthreads", 1);
         int numReplicas = atlasProperties.getInt("atlas.notification.replicas", 1);
@@ -119,7 +115,6 @@ public class AtlasTopicCreator {
         LOG.warn("Created topic {} with partitions {} and replicas {}", topicName, numPartitions, numReplicas);
     }
 
-    @VisibleForTesting
     protected ZkUtils createZkUtils(Configuration atlasProperties) {
         String zkConnect = atlasProperties.getString("atlas.kafka.zookeeper.connect");
         int sessionTimeout = atlasProperties.getInt("atlas.kafka.zookeeper.session.timeout.ms", 400);

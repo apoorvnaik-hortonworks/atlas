@@ -17,7 +17,6 @@
 
 package org.apache.atlas;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.atlas.exception.AtlasBaseException;
@@ -41,7 +40,6 @@ import java.util.concurrent.locks.ReentrantLock;
 public class GraphTransactionInterceptor implements MethodInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(GraphTransactionInterceptor.class);
 
-    @VisibleForTesting
     private static final ObjectUpdateSynchronizer               OBJECT_UPDATE_SYNCHRONIZER = new ObjectUpdateSynchronizer();
     private static final ThreadLocal<List<PostTransactionHook>> postTransactionHooks       = new ThreadLocal<>();
     private static final ThreadLocal<Boolean>                   isTxnOpen                  = ThreadLocal.withInitial(() -> Boolean.FALSE);

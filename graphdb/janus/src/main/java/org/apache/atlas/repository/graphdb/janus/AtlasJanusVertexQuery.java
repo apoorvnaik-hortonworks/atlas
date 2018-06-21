@@ -17,7 +17,6 @@
  */
 package org.apache.atlas.repository.graphdb.janus;
 
-import com.google.common.base.Preconditions;
 import org.apache.atlas.repository.graphdb.AtlasEdge;
 import org.apache.atlas.repository.graphdb.AtlasEdgeDirection;
 import org.apache.atlas.repository.graphdb.AtlasVertex;
@@ -53,7 +52,7 @@ public class AtlasJanusVertexQuery implements AtlasVertexQuery<AtlasJanusVertex,
 
     @Override
     public Iterable<AtlasVertex<AtlasJanusVertex, AtlasJanusEdge>> vertices(int limit) {
-        Preconditions.checkArgument(limit >=0, "Limit should be greater than or equals to 0");
+        // Preconditions.checkArgument(limit >=0, "Limit should be greater than or equals to 0");
         Iterable vertices = query.limit(limit).vertices();
         return graph.wrapVertices(vertices);
     }
@@ -66,7 +65,7 @@ public class AtlasJanusVertexQuery implements AtlasVertexQuery<AtlasJanusVertex,
 
     @Override
     public Iterable<AtlasEdge<AtlasJanusVertex, AtlasJanusEdge>> edges(int limit) {
-        Preconditions.checkArgument(limit >=0, "Limit should be greater than or equals to 0");
+        // Preconditions.checkArgument(limit >=0, "Limit should be greater than or equals to 0");
         Iterable edges = query.limit(limit).edges();
         return graph.wrapEdges(edges);
     }

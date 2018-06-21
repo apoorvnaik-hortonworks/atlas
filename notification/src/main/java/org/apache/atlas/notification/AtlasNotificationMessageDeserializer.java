@@ -19,7 +19,6 @@
 package org.apache.atlas.notification;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.model.notification.AtlasNotificationBaseMessage;
 import org.apache.atlas.model.notification.AtlasNotificationBaseMessage.CompressionKind;
 import org.apache.atlas.model.notification.AtlasNotificationMessage;
@@ -241,7 +240,6 @@ public abstract class AtlasNotificationMessageDeserializer<T> implements Message
         return ret;
     }
 
-    @VisibleForTesting
     static void purgeStaleMessages(Map<String, SplitMessageAggregator> splitMsgBuffer, long now, long maxWaitTime) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("==> purgeStaleMessages(bufferedMessageCount=" + splitMsgBuffer.size() + ")");

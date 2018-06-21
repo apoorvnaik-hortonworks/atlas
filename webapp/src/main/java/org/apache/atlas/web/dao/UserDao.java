@@ -17,7 +17,6 @@
 
 package org.apache.atlas.web.dao;
 
-import com.google.common.annotations.VisibleForTesting;
 
 import java.io.InputStream;
 import java.io.IOException;
@@ -108,7 +107,6 @@ public class UserDao {
     }
     
 
-    @VisibleForTesting
     public void setUserLogins(Properties userLogins) {
         this.userLogins = userLogins;
     }

@@ -18,7 +18,6 @@
 
 package org.apache.atlas.repository.audit;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasException;
 import org.apache.atlas.EntityAuditEvent;
@@ -547,7 +546,6 @@ public class HBaseBasedAuditRepository extends AbstractStorageBasedAuditReposito
         startInternal(configuration, getHBaseConfiguration(configuration));
     }
 
-    @VisibleForTesting
     void startInternal(Configuration atlasConf,
                                  org.apache.hadoop.conf.Configuration hbaseConf) throws AtlasException {
 
@@ -566,7 +564,6 @@ public class HBaseBasedAuditRepository extends AbstractStorageBasedAuditReposito
         }
     }
 
-    @VisibleForTesting
     protected Connection createConnection(org.apache.hadoop.conf.Configuration hbaseConf) throws IOException {
         return ConnectionFactory.createConnection(hbaseConf);
     }

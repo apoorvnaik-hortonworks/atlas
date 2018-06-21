@@ -19,8 +19,6 @@
 package org.apache.atlas.web.resources;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasConstants;
 import org.apache.atlas.AtlasErrorCode;
@@ -198,7 +196,6 @@ public class EntityResource {
         }
     }
 
-    @VisibleForTesting
     public URI getLocationURI(List<String> guids) {
         URI locationURI = null;
         if (uriInfo != null) {
@@ -514,9 +511,9 @@ public class EntityResource {
     private Response partialUpdateEntityAttrByGuid(String guid, String property, HttpServletRequest request) {
         String value = null;
         try {
-            Preconditions.checkNotNull(property, "Entity property cannot be null");
+            // Preconditions.checkNotNull(property, "Entity property cannot be null");
             value = Servlets.getRequestPayload(request);
-            Preconditions.checkNotNull(value, "Entity value cannot be null");
+            // Preconditions.checkNotNull(value, "Entity value cannot be null");
 
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Updating entity {} for property {} = {}", guid, property, value);
@@ -691,7 +688,7 @@ public class EntityResource {
      */
     public Response getEntityListByType(String entityType) {
         try {
-            Preconditions.checkNotNull(entityType, "Entity type cannot be null");
+            // Preconditions.checkNotNull(entityType, "Entity type cannot be null");
 
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Fetching entity list for type={} ", entityType);

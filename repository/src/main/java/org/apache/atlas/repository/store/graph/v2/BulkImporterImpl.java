@@ -17,7 +17,6 @@
  */
 package org.apache.atlas.repository.store.graph.v2;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.AtlasErrorCode;
 import org.apache.atlas.RequestContext;
 import org.apache.atlas.exception.AtlasBaseException;
@@ -135,7 +134,6 @@ public class BulkImporterImpl implements BulkImporter {
         return updateImportProgress(LOG, currentIndex + 1, streamSize, currentPercent, lastEntityImported);
     }
 
-    @VisibleForTesting
     static float updateImportProgress(Logger log, int currentIndex, int streamSize, float currentPercent, String additionalInfo) {
         final double tolerance   = 0.000001;
         final int    MAX_PERCENT = 100;

@@ -18,7 +18,6 @@
 
 package org.apache.atlas.hive;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasClientV2;
@@ -432,7 +431,6 @@ public class HiveITBase {
     }
 
 
-    @VisibleForTesting
     protected static String getProcessQualifiedName(HiveMetaStoreBridge dgiBridge, HiveEventContext eventContext,
                                           final SortedSet<ReadEntity> sortedHiveInputs,
                                           final SortedSet<WriteEntity> sortedHiveOutputs,
@@ -615,7 +613,6 @@ public class HiveITBase {
     }
 
 
-    @VisibleForTesting
     protected static final class EntityComparator implements Comparator<Entity> {
         @Override
         public int compare(Entity o1, Entity o2) {
@@ -629,7 +626,6 @@ public class HiveITBase {
         }
     }
 
-    @VisibleForTesting
     protected static final Comparator<Entity> entityComparator = new EntityComparator();
 
     protected AtlasObjectId toAtlasObjectId(Object obj) {

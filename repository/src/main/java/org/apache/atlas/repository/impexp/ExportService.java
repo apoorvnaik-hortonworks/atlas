@@ -17,7 +17,6 @@
  */
 package org.apache.atlas.repository.impexp;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.AtlasErrorCode;
 import org.apache.atlas.AtlasException;
 import org.apache.atlas.AtlasServiceException;
@@ -162,7 +161,6 @@ public class ExportService {
         return statuses;
     }
 
-    @VisibleForTesting
     AtlasExportResult.OperationStatus getOverallOperationStatus(AtlasExportResult.OperationStatus... statuses) {
         AtlasExportResult.OperationStatus overall = (statuses.length == 0) ?
                 AtlasExportResult.OperationStatus.FAIL : statuses[0];

@@ -19,7 +19,6 @@ package org.apache.atlas;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.annotations.VisibleForTesting;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
@@ -131,13 +130,11 @@ public abstract class AtlasBaseClient {
         initializeState(baseUrls, null, null);
     }
 
-    @VisibleForTesting
     protected AtlasBaseClient(WebResource service, Configuration configuration) {
         this.service = service;
         this.configuration = configuration;
     }
 
-    @VisibleForTesting
     protected AtlasBaseClient(Configuration configuration, String[] baseUrl, String[] basicAuthUserNamePassword) {
         if (basicAuthUserNamePassword != null) {
             if (basicAuthUserNamePassword.length > 0) {
@@ -244,7 +241,6 @@ public abstract class AtlasBaseClient {
         return callAPIWithResource(api, getResource(api, queryParamKey, queryParamValues), null, responseType);
     }
 
-    @VisibleForTesting
     protected Client getClient(Configuration configuration, UserGroupInformation ugi, String doAsUser) {
         DefaultClientConfig config = new DefaultClientConfig();
         // Enable POJO mapping feature
@@ -279,7 +275,6 @@ public abstract class AtlasBaseClient {
         return client;
     }
 
-    @VisibleForTesting
     protected String determineActiveServiceURL(String[] baseUrls, Client client) {
         if (baseUrls.length == 0) {
             throw new IllegalArgumentException("Base URLs cannot be null or empty");
@@ -469,7 +464,6 @@ public abstract class AtlasBaseClient {
         throw che;
     }
 
-    @VisibleForTesting
     ObjectNode callAPIWithRetries(API api, Object requestObject, ResourceCreator resourceCreator)
             throws AtlasServiceException {
         for (int i = 0; i < getNumberOfRetries(); i++) {
@@ -489,12 +483,10 @@ public abstract class AtlasBaseClient {
         throw new AtlasServiceException(api, new RuntimeException("Could not get response after retries."));
     }
 
-    @VisibleForTesting
     void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
     }
 
-    @VisibleForTesting
     void setService(WebResource resource) {
         this.service = resource;
     }

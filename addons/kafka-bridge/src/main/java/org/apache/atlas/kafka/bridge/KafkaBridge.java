@@ -22,7 +22,6 @@ import kafka.utils.ZKStringSerializer$;
 import kafka.utils.ZkUtils;
 import org.I0Itec.zkclient.ZkClient;
 import org.I0Itec.zkclient.ZkConnection;
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.kafka.common.security.JaasUtils;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasClientV2;
@@ -184,7 +183,6 @@ public class KafkaBridge {
         }
     }
 
-    @VisibleForTesting
     AtlasEntityWithExtInfo createOrUpdateTopic(String topic) throws Exception {
         String                 topicQualifiedName = getTopicQualifiedName(clusterName, topic);
         AtlasEntityWithExtInfo topicEntity        = findTopicEntityInAtlas(topicQualifiedName);
@@ -210,7 +208,6 @@ public class KafkaBridge {
         return topicEntity;
     }
 
-    @VisibleForTesting
     AtlasEntity getTopicEntity(String topic, AtlasEntity topicEntity) {
         final AtlasEntity ret;
 
@@ -233,7 +230,6 @@ public class KafkaBridge {
         return ret;
     }
 
-    @VisibleForTesting
     static String getTopicQualifiedName(String clusterName, String topic) {
         return String.format(FORMAT_KAKFA_TOPIC_QUALIFIED_NAME, topic.toLowerCase(), clusterName);
     }
@@ -251,14 +247,12 @@ public class KafkaBridge {
         return ret;
     }
 
-    @VisibleForTesting
      AtlasEntityWithExtInfo findEntityInAtlas(String typeName, String qualifiedName) throws Exception {
         Map<String, String> attributes = Collections.singletonMap(ATTRIBUTE_QUALIFIED_NAME, qualifiedName);
 
         return atlasClientV2.getEntityByAttribute(typeName, attributes);
     }
 
-    @VisibleForTesting
     AtlasEntityWithExtInfo createEntityInAtlas(AtlasEntityWithExtInfo entity) throws Exception {
         AtlasEntityWithExtInfo  ret      = null;
         EntityMutationResponse  response = atlasClientV2.createEntity(entity);
@@ -275,7 +269,6 @@ public class KafkaBridge {
         return ret;
     }
 
-    @VisibleForTesting
     AtlasEntityWithExtInfo updateEntityInAtlas(AtlasEntityWithExtInfo entity) throws Exception {
         AtlasEntityWithExtInfo ret      = null;
         EntityMutationResponse response = atlasClientV2.updateEntity(entity);

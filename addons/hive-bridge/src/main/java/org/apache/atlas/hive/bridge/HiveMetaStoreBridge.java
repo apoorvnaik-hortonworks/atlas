@@ -18,7 +18,6 @@
 
 package org.apache.atlas.hive.bridge;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.sun.jersey.api.client.ClientResponse;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasClientV2;
@@ -240,7 +239,6 @@ public class HiveMetaStoreBridge {
     }
 
 
-    @VisibleForTesting
     public void importHiveMetadata(String databaseToImport, String tableToImport, boolean failOnError) throws Exception {
         LOG.info("Importing Hive metadata");
 
@@ -312,7 +310,6 @@ public class HiveMetaStoreBridge {
         return tablesImported;
     }
 
-    @VisibleForTesting
     public int importTable(AtlasEntity dbEntity, String databaseName, String tableName, final boolean failOnError) throws Exception {
         try {
             Table                  table       = hiveClient.getTable(databaseName, tableName);

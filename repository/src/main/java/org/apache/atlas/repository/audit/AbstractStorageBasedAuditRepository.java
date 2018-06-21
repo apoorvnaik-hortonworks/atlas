@@ -17,7 +17,6 @@
  */
 package org.apache.atlas.repository.audit;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasException;
 import org.apache.atlas.EntityAuditEvent;
@@ -150,7 +149,6 @@ public abstract class AbstractStorageBasedAuditRepository implements Service, En
    *
    * @param config
    */
-  @VisibleForTesting
   protected void setApplicationProperties(Configuration config) {
     APPLICATION_PROPERTIES = config;
   }

@@ -18,7 +18,6 @@
 
 package org.apache.atlas.repository.impexp;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.annotation.AtlasService;
 import org.apache.atlas.model.impexp.MigrationStatus;
 import org.apache.atlas.repository.graphdb.GraphDBMigrator;
@@ -36,7 +35,6 @@ public class MigrationProgressService {
 
     public static final String MIGRATION_QUERY_CACHE_TTL = "atlas.migration.query.cache.ttlInSecs";
 
-    @VisibleForTesting
     static long DEFAULT_CACHE_TTL_IN_SECS = 30 * 1000; // 30 secs
 
     private final long            cacheValidity;

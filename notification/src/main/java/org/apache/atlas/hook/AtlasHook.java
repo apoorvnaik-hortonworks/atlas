@@ -18,7 +18,6 @@
 
 package org.apache.atlas.hook;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.kafka.NotificationProvider;
 import org.apache.atlas.model.notification.HookNotification;
@@ -118,7 +117,6 @@ public abstract class AtlasHook {
         notifyEntitiesInternal(messages, maxRetries, notificationInterface, logFailedMessages, failedMessagesLogger);
     }
 
-    @VisibleForTesting
     static void notifyEntitiesInternal(List<HookNotification> messages, int maxRetries,
                                        NotificationInterface notificationInterface,
                                        boolean shouldLogFailedMessages, FailedMessagesLogger logger) {

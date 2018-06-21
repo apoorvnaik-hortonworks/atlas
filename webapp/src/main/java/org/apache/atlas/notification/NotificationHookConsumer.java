@@ -17,7 +17,6 @@
  */
 package org.apache.atlas.notification;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import kafka.utils.ShutdownableThread;
 import org.apache.atlas.ApplicationProperties;
@@ -106,10 +105,8 @@ public class NotificationHookConsumer implements Service, ActiveStateChangeHandl
     private ExecutorService       executors;
     private Configuration         applicationProperties;
 
-    @VisibleForTesting
     final int consumerRetryInterval;
 
-    @VisibleForTesting
     List<HookConsumer> consumers;
 
     @Inject
@@ -246,7 +243,6 @@ public class NotificationHookConsumer implements Service, ActiveStateChangeHandl
         private final long resetInterval;
         private       long lastWaitAt;
 
-        @VisibleForTesting
         long waitDuration;
 
         public AdaptiveWaiter(long minDuration, long maxDuration, long increment) {
@@ -290,14 +286,12 @@ public class NotificationHookConsumer implements Service, ActiveStateChangeHandl
         }
     }
 
-    @VisibleForTesting
     class HookConsumer extends ShutdownableThread {
         private final NotificationConsumer<HookNotification> consumer;
         private final AtomicBoolean                          shouldRun      = new AtomicBoolean(false);
         private final List<HookNotification>                 failedMessages = new ArrayList<>();
         private final AdaptiveWaiter                         adaptiveWaiter = new AdaptiveWaiter(minWaitDuration, maxWaitDuration, minWaitDuration);
 
-        @VisibleForTesting
         final FailedCommitOffsetRecorder failedCommitOffsetRecorder;
 
         public HookConsumer(NotificationConsumer<HookNotification> consumer) {
@@ -348,7 +342,6 @@ public class NotificationHookConsumer implements Service, ActiveStateChangeHandl
             }
         }
 
-        @VisibleForTesting
         void handleMessage(AtlasKafkaMessage<HookNotification> kafkaMsg) throws AtlasServiceException, AtlasException {
             AtlasPerfTracer  perf        = null;
             HookNotification message     = kafkaMsg.getMessage();

@@ -21,7 +21,6 @@ package org.apache.atlas;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.annotations.VisibleForTesting;
 import com.sun.jersey.api.client.WebResource;
 import org.apache.atlas.model.legacy.EntityResult;
 import org.apache.atlas.v1.model.instance.Referenceable;
@@ -170,7 +169,6 @@ public class AtlasClient extends AtlasBaseClient {
         //Do nothing
     }
 
-    @VisibleForTesting
     public AtlasClient(Configuration configuration, String[] baseUrl, String[] basicAuthUserNamePassword) {
         super(configuration, baseUrl, basicAuthUserNamePassword);
     }
@@ -180,12 +178,10 @@ public class AtlasClient extends AtlasBaseClient {
         return new API(String.format(api.getPath(), params), api.getMethod(), api.getExpectedStatus());
     }
 
-    @VisibleForTesting
     public AtlasClient(Configuration configuration, String... baseUrls) throws AtlasException {
         initializeState(configuration, baseUrls, getCurrentUGI(), getCurrentUGI().getShortUserName());
     }
 
-    @VisibleForTesting
     AtlasClient(WebResource service, Configuration configuration) {
         super(service, configuration);
     }
@@ -876,62 +872,50 @@ public class AtlasClient extends AtlasBaseClient {
     }
 
     // Wrapper methods for compatibility
-    @VisibleForTesting
     public ObjectNode callAPIWithResource(API api, WebResource resource) throws AtlasServiceException {
         return callAPIWithResource(api, resource, null, ObjectNode.class);
     }
 
-    @VisibleForTesting
     public ObjectNode callAPIWithResource(API_V1 apiV1, WebResource resource) throws AtlasServiceException {
         return callAPIWithResource(apiV1, resource, null, ObjectNode.class);
     }
 
-    @VisibleForTesting
     public WebResource getResource(API api, String... params) {
         return getResource(api.getNormalizedPath(), params);
     }
 
-    @VisibleForTesting
     public WebResource getResource(API_V1 apiV1, String... params) {
         return getResource(apiV1.getNormalizedPath(), params);
     }
 
-    @VisibleForTesting
     public ObjectNode callAPIWithBody(API api, Object requestObject) throws AtlasServiceException {
         return callAPI(api, ObjectNode.class, requestObject, (String[]) null);
     }
 
-    @VisibleForTesting
     public ObjectNode callAPIWithBody(API_V1 apiV1, Object requestObject) throws AtlasServiceException {
         return callAPI(apiV1, ObjectNode.class, requestObject, (String[]) null);
     }
 
-    @VisibleForTesting
     public ObjectNode callAPIWithBodyAndParams(API api, Object requestObject, String... params) throws AtlasServiceException {
         return callAPI(api, ObjectNode.class, requestObject, params);
     }
 
-    @VisibleForTesting
     public ObjectNode callAPIWithBodyAndParams(API_V1 apiV1, Object requestObject, String... params) throws AtlasServiceException {
         return callAPI(apiV1, ObjectNode.class, requestObject, params);
     }
 
-    @VisibleForTesting
     public ObjectNode callAPIWithQueryParams(API api, MultivaluedMap<String, String> queryParams) throws AtlasServiceException {
         return callAPI(api, ObjectNode.class, queryParams);
     }
 
-    @VisibleForTesting
     public ObjectNode callAPIWithQueryParams(API_V1 apiV1, MultivaluedMap<String, String> queryParams) throws AtlasServiceException {
         return callAPI(apiV1, ObjectNode.class, queryParams);
     }
 
-    @VisibleForTesting
     ObjectNode callAPIWithRetries(API api, Object requestObject, ResourceCreator resourceCreator) throws AtlasServiceException {
         return super.callAPIWithRetries(api, requestObject, resourceCreator);
     }
 
-    @VisibleForTesting
     ObjectNode callAPIWithRetries(API_V1 apiV1, Object requestObject, ResourceCreator resourceCreator) throws AtlasServiceException {
         return super.callAPIWithRetries(apiV1, requestObject, resourceCreator);
     }

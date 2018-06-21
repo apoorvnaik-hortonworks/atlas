@@ -19,7 +19,6 @@
 package org.apache.atlas.web.integration;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.google.common.base.Preconditions;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasClientV2;
@@ -455,8 +454,8 @@ public abstract class BaseResourceIT {
     }
 
     AttributeDefinition attrDef(String name, String dT, Multiplicity m, boolean isComposite, String reverseAttributeName) {
-        Preconditions.checkNotNull(name);
-        Preconditions.checkNotNull(dT);
+        // Preconditions.checkNotNull(name);
+        // Preconditions.checkNotNull(dT);
 
         return new AttributeDefinition(name, dT, m, isComposite, reverseAttributeName);
     }

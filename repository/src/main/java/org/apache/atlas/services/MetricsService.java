@@ -17,7 +17,6 @@
  */
 package org.apache.atlas.services;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.annotation.AtlasService;
 import org.apache.atlas.exception.AtlasBaseException;
 import org.apache.atlas.model.metrics.AtlasMetrics;
@@ -90,7 +89,6 @@ public class MetricsService {
         this(configuration, graph, typeRegistry, INSTANCE);
     }
 
-    @VisibleForTesting
     MetricsService(Configuration configuration, AtlasGraph graph, AtlasTypeRegistry typeRegistry, AtlasGremlinQueryProvider queryProvider) {
         MetricsService.configuration = configuration;
         atlasGraph = graph;

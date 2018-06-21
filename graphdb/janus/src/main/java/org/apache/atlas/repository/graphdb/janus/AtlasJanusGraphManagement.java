@@ -17,7 +17,6 @@
  */
 package org.apache.atlas.repository.graphdb.janus;
 
-import com.google.common.base.Preconditions;
 import org.apache.atlas.repository.graphdb.AtlasEdgeDirection;
 import org.apache.tinkerpop.gremlin.structure.Direction;
 import org.janusgraph.core.Cardinality;
@@ -133,10 +132,10 @@ public class AtlasJanusGraphManagement implements AtlasGraphManagement {
     private static void checkName(String name) {
         //for some reason, name checking was removed from StandardPropertyKeyMaker.make()
         //in Janus.  For consistency, do the check here.
-        Preconditions.checkArgument(StringUtils.isNotBlank(name), "Need to specify name");
+        // Preconditions.checkArgument(StringUtils.isNotBlank(name), "Need to specify name");
 
         for (char c : RESERVED_CHARS) {
-            Preconditions.checkArgument(name.indexOf(c) < 0, "Name can not contains reserved character %s: %s", c, name);
+            // Preconditions.checkArgument(name.indexOf(c) < 0, "Name can not contains reserved character %s: %s", c, name);
         }
 
     }

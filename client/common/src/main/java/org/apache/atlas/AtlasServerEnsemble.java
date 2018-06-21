@@ -18,7 +18,6 @@
 
 package org.apache.atlas;
 
-import com.google.common.base.Preconditions;
 import org.apache.commons.lang.StringUtils;
 import java.util.Arrays;
 
@@ -29,11 +28,11 @@ public class AtlasServerEnsemble {
     private final String[] urls;
 
     public AtlasServerEnsemble(String[] baseUrls) {
-        Preconditions.checkArgument((baseUrls!=null && baseUrls.length>0),
-                "List of baseURLs cannot be null or empty.");
+        // Preconditions.checkArgument((baseUrls!=null && baseUrls.length>0),
+        //         "List of baseURLs cannot be null or empty.");
         for (String baseUrl : baseUrls) {
-            Preconditions.checkArgument(StringUtils.isNotEmpty(baseUrl),
-                    "Base URL cannot be null or empty.");
+            // Preconditions.checkArgument(StringUtils.isNotEmpty(baseUrl),
+            //         "Base URL cannot be null or empty.");
         }
         urls = baseUrls;
     }

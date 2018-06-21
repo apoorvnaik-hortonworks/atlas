@@ -17,7 +17,6 @@
  */
 package org.apache.atlas.query;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.AtlasErrorCode;
 import org.apache.atlas.exception.AtlasBaseException;
 import org.apache.atlas.model.TypeCategory;
@@ -89,7 +88,6 @@ public class GremlinQueryComposer {
         providedOffset = offset < 0 ? DEFAULT_QUERY_RESULT_OFFSET : offset;
     }
 
-    @VisibleForTesting
     GremlinQueryComposer(Lookup lookup, Context context, final AtlasDSL.QueryMetadata qmd) {
         this.isNestedQuery = false;
         this.lookup = lookup;
@@ -617,7 +615,6 @@ public class GremlinQueryComposer {
         }
     }
 
-    @VisibleForTesting
     static class Context {
         private static final AtlasStructType UNKNOWN_TYPE = new AtlasStructType(new AtlasStructDef());
 

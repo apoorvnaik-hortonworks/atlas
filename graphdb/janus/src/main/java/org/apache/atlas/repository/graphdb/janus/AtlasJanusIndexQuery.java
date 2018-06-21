@@ -19,7 +19,6 @@ package org.apache.atlas.repository.graphdb.janus;
 
 import java.util.Iterator;
 
-import com.google.common.base.Preconditions;
 import org.apache.atlas.repository.graphdb.AtlasIndexQuery;
 import org.apache.atlas.repository.graphdb.AtlasVertex;
 
@@ -58,8 +57,8 @@ public class AtlasJanusIndexQuery implements AtlasIndexQuery<AtlasJanusVertex, A
 
     @Override
     public Iterator<Result<AtlasJanusVertex, AtlasJanusEdge>> vertices(int offset, int limit) {
-        Preconditions.checkArgument(offset >=0, "Index offset should be greater than or equals to 0");
-        Preconditions.checkArgument(limit >=0, "Index limit should be greater than or equals to 0");
+        // Preconditions.checkArgument(offset >=0, "Index offset should be greater than or equals to 0");
+        // Preconditions.checkArgument(limit >=0, "Index limit should be greater than or equals to 0");
         Iterator<JanusGraphIndexQuery.Result<JanusGraphVertex>> results = query
                 .offset(offset)
                 .limit(limit)

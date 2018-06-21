@@ -20,7 +20,6 @@
 
 package org.apache.atlas.web.filters;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.JWSVerifier;
@@ -95,7 +94,6 @@ public class AtlasKnoxSSOAuthenticationFilter implements Filter {
     private Configuration configuration = null;
     private boolean ssoEnabled = false;
     private JWSVerifier verifier = null;
-    @VisibleForTesting
     private final int MAX_LOGIN_URL_LENGTH = 2043;
 
     @Inject
@@ -426,7 +424,6 @@ public class AtlasKnoxSSOAuthenticationFilter implements Filter {
     }
 
 
-    @VisibleForTesting
     void safeAppend(StringBuilder sb, String... strings) {
         for (String s : strings) {
             if ((sb.length() + s.length()) < MAX_LOGIN_URL_LENGTH) {

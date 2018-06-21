@@ -17,7 +17,6 @@
  */
 package org.apache.atlas.notification;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.AtlasException;
 import org.apache.atlas.model.notification.AtlasNotificationBaseMessage;
 import org.apache.atlas.model.notification.AtlasNotificationMessage;
@@ -72,7 +71,6 @@ public abstract class AbstractNotification implements NotificationInterface {
     public AbstractNotification(Configuration applicationProperties) throws AtlasException {
     }
 
-    @VisibleForTesting
     protected AbstractNotification() {
     }
 

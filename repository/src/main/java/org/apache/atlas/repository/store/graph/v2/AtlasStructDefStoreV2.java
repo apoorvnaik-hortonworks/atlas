@@ -17,7 +17,6 @@
  */
 package org.apache.atlas.repository.store.graph.v2;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.AtlasErrorCode;
 import org.apache.atlas.authorize.AtlasPrivilege;
 import org.apache.atlas.authorize.AtlasTypeAccessRequest;
@@ -471,7 +470,6 @@ public class AtlasStructDefStoreV2 extends AtlasAbstractDefStoreV2<AtlasStructDe
         }
     }
 
-    @VisibleForTesting
     public static String toJsonFromAttribute(AtlasAttribute attribute) {
         AtlasAttributeDef   attributeDef = attribute.getAttributeDef();
         Map<String, Object> attribInfo   = new HashMap<>();
@@ -512,7 +510,6 @@ public class AtlasStructDefStoreV2 extends AtlasAbstractDefStoreV2<AtlasStructDe
         return AtlasType.toJson(attribInfo);
     }
 
-    @VisibleForTesting
     public static AtlasAttributeDef toAttributeDefFromJson(AtlasStructDef           structDef,
                                                            Map                      attribInfo,
                                                            AtlasTypeDefGraphStoreV2 typeDefStore)

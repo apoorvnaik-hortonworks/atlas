@@ -17,7 +17,6 @@
  */
 package org.apache.atlas;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.apache.atlas.model.SearchFilter;
@@ -110,7 +109,6 @@ public class AtlasClientV2 extends AtlasBaseClient {
         super(configuration, baseUrl, basicAuthUserNamePassword);
     }
 
-    @VisibleForTesting
     AtlasClientV2(WebResource service, Configuration configuration) {
         super(service, configuration);
     }

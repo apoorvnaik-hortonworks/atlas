@@ -18,7 +18,6 @@
 
 package org.apache.atlas.web.service;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Charsets;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasException;
@@ -78,7 +77,6 @@ public class CuratorFactory {
         initializeCuratorFramework();
     }
 
-    @VisibleForTesting
     protected void initializeCuratorFramework() {
         HAConfiguration.ZookeeperProperties zookeeperProperties =
                 HAConfiguration.getZookeeperProperties(configuration);
@@ -88,7 +86,6 @@ public class CuratorFactory {
         curatorFramework.start();
     }
 
-    @VisibleForTesting
     void enhanceBuilderWithSecurityParameters(HAConfiguration.ZookeeperProperties zookeeperProperties,
                                               CuratorFrameworkFactory.Builder builder) {
 

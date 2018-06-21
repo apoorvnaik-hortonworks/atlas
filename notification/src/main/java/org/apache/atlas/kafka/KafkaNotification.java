@@ -17,7 +17,6 @@
  */
 package org.apache.atlas.kafka;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasException;
 import org.apache.atlas.notification.AbstractNotification;
@@ -108,7 +107,6 @@ public class KafkaNotification extends AbstractNotification implements Service {
         LOG.info("<== KafkaNotification()");
     }
 
-    @VisibleForTesting
     protected KafkaNotification(Properties properties) {
         super();
 
@@ -120,7 +118,6 @@ public class KafkaNotification extends AbstractNotification implements Service {
         LOG.info("<== KafkaNotification()");
     }
 
-    @VisibleForTesting
     String getTopicName(NotificationType notificationType) {
         return TOPIC_MAP.get(notificationType);
     }
@@ -148,7 +145,6 @@ public class KafkaNotification extends AbstractNotification implements Service {
         return createConsumers(notificationType, numConsumers, Boolean.valueOf(properties.getProperty("enable.auto.commit", properties.getProperty("auto.commit.enable","false"))));
     }
 
-    @VisibleForTesting
     public <T> List<NotificationConsumer<T>> createConsumers(NotificationType notificationType, int numConsumers, boolean autoCommitEnabled) {
         LOG.info("==> KafkaNotification.createConsumers(notificationType={}, numConsumers={}, autoCommitEnabled={})", notificationType, numConsumers, autoCommitEnabled);
 
@@ -186,7 +182,6 @@ public class KafkaNotification extends AbstractNotification implements Service {
         sendInternalToProducer(producer, type, messages);
     }
 
-    @VisibleForTesting
     void sendInternalToProducer(Producer p, NotificationType type, List<String> messages) throws NotificationException {
         String               topic           = TOPIC_MAP.get(type);
         List<MessageContext> messageContexts = new ArrayList<>();
@@ -245,7 +240,6 @@ public class KafkaNotification extends AbstractNotification implements Service {
     }
 
 
-    @VisibleForTesting
     public
         // Get properties for consumer request
     Properties getConsumerProperties(NotificationType type) {

@@ -20,8 +20,6 @@ package org.apache.atlas.examples;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasErrorCode;
@@ -74,7 +72,6 @@ public class QuickStart {
         runQuickstart(args, basicAuthUsernamePassword);
     }
 
-    @VisibleForTesting
     static void runQuickstart(String[] args, String[] basicAuthUsernamePassword) throws Exception {
         String[] urls = getServerUrl(args);
         QuickStart quickStart;
@@ -215,8 +212,8 @@ public class QuickStart {
 
     AttributeDefinition attrDef(String name, String dT, Multiplicity m, boolean isComposite,
             String reverseAttributeName) {
-        Preconditions.checkNotNull(name);
-        Preconditions.checkNotNull(dT);
+        // Preconditions.checkNotNull(name);
+        // Preconditions.checkNotNull(dT);
         return new AttributeDefinition(name, dT, m, isComposite, reverseAttributeName);
     }
 

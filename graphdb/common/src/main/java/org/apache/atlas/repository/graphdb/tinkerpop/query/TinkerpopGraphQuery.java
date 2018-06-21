@@ -17,7 +17,6 @@
  */
 package org.apache.atlas.repository.graphdb.tinkerpop.query;
 
-import com.google.common.base.Preconditions;
 import org.apache.atlas.repository.graphdb.AtlasEdge;
 import org.apache.atlas.repository.graphdb.AtlasGraph;
 import org.apache.atlas.repository.graphdb.AtlasGraphQuery;
@@ -169,8 +168,8 @@ public abstract class TinkerpopGraphQuery<V, E> implements AtlasGraphQuery<V, E>
             LOG.debug("Executing: " + queryCondition);
         }
 
-        Preconditions.checkArgument(offset >= 0, "Offset must be non-negative");
-        Preconditions.checkArgument(limit >= 0, "Limit must be non-negative");
+        // Preconditions.checkArgument(offset >= 0, "Offset must be non-negative");
+        // Preconditions.checkArgument(limit >= 0, "Limit must be non-negative");
 
         // Compute the overall result by combining the results of all the AndConditions (nested within OR) together.
         Set<AtlasEdge<V, E>> result = new HashSet<>();
@@ -208,8 +207,8 @@ public abstract class TinkerpopGraphQuery<V, E> implements AtlasGraphQuery<V, E>
             LOG.debug("Executing: " + queryCondition);
         }
 
-        Preconditions.checkArgument(offset >= 0, "Offset must be non-negative");
-        Preconditions.checkArgument(limit >= 0, "Limit must be non-negative");
+        // Preconditions.checkArgument(offset >= 0, "Offset must be non-negative");
+        // Preconditions.checkArgument(limit >= 0, "Limit must be non-negative");
 
         // Compute the overall result by combining the results of all the AndConditions (nested within OR) together.
         Set<AtlasVertex<V, E>> result = new HashSet<>();

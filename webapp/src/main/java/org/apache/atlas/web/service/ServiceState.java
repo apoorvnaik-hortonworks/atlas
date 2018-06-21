@@ -18,7 +18,6 @@
 
 package org.apache.atlas.web.service;
 
-import com.google.common.base.Preconditions;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasException;
 import org.apache.atlas.ha.HAConfiguration;
@@ -78,8 +77,8 @@ public class ServiceState {
     }
 
     private void setState(ServiceStateValue newState) {
-        Preconditions.checkState(HAConfiguration.isHAEnabled(configuration),
-                "Cannot change state as requested, as HA is not enabled for this instance.");
+        // Preconditions.checkState(HAConfiguration.isHAEnabled(configuration),
+        //         "Cannot change state as requested, as HA is not enabled for this instance.");
         state = newState;
     }
 

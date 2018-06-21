@@ -570,7 +570,6 @@
         <spring.security.version>4.2.6.RELEASE</spring.security.version>
 
         <javax.servlet.version>3.1.0</javax.servlet.version>
-        <guava.version>19.0</guava.version>
         <scala.version>2.11.12</scala.version>
         <antlr4.version>4.7</antlr4.version>
 
@@ -813,12 +812,6 @@
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-runtime</artifactId>
                 <version>${antlr4.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
             </dependency>
 
             <dependency>
