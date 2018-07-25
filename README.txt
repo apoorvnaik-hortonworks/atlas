@@ -1,6 +1,11 @@
 # Licensed to the Apache Software Foundation (ASF) under one
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fapoorvnaik-hortonworks%2Fatlas.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fapoorvnaik-hortonworks%2Fatlas?ref=badge_shield)
+
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fapoorvnaik-hortonworks%2Fatlas.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fapoorvnaik-hortonworks%2Fatlas?ref=badge_large)
+
 # regarding copyright ownership.  The ASF licenses this file
 # to you under the Apache License, Version 2.0 (the
 # "License"); you may not use this file except in compliance
